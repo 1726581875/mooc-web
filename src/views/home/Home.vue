@@ -1054,19 +1054,32 @@
 
 <script>
     export default {
-        name: "Home"
+        name: "Home",
+        data() {
+            return {
+                }
+            },
+        methods: {
 
+        },
+        mounted() {
+
+            $('.tab_qiehuan').hover(function(){
+                $(this).children(".bianhuabeijing").css("background-color","#8a8f93").next().css("display","block")
+            },function(){
+                $(this).children(".bianhuabeijing").css("background-color","#a9aaae").next().css("display","none")
+            });
+
+
+            jQuery(".focusBox").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:500});
+        }
     };
 
 
-    $('.tab_qiehuan').hover(function(){
-        $(this).children(".bianhuabeijing").css("background-color","#8a8f93").next().css("display","block")
-    },function(){
-        $(this).children(".bianhuabeijing").css("background-color","#a9aaae").next().css("display","none")
-    });
 
 
-    jQuery(".focusBox").slide({ mainCell:".pic",effect:"left", autoPlay:true, delayTime:500});
+
+
 
 </script>
 
