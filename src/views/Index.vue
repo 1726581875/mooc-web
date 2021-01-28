@@ -60,9 +60,6 @@
         </nav>
 
 
-
-
-
         <div class="navbar-banner layout-no-margin-top">
             <div class="banner-container">
                 <div class="container">
@@ -761,7 +758,7 @@
         <div class="footer">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4 clearfix footer-col">
+<!--                    <div class="col-md-4 clearfix footer-col">
                         <img src="img/logo_03.png">
                         <div class="footer-slogan">动手做实验，轻松学编程</div>
                         <div class="col-xs-2">
@@ -815,7 +812,7 @@
                         <a href="paths/index.html" target="_blank">Java学习路径</a><br>
                         <a href="paths/index.html" target="_blank">PHP学习路径</a><br>
                         <a href="paths/index.html", target="_blank">全部</a>
-                    </div>
+                    </div>-->
                 </div>
             </div>
             <div class="text-center copyright">
@@ -839,11 +836,6 @@
 </script>
 
 <style scoped>
-    @font-face {
-        font-family: "lantingxihei";
-        src: url("fonts/FZLTCXHJW.TTF");
-    }
-
     /* modal 模态框*/
     #invite-user .modal-body {
         overflow: hidden;

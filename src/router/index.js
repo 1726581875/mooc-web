@@ -13,7 +13,19 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Login.vue')
+    component: () => import('../views/Login')
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('../views/Home'),
+    children: [
+      {
+        path: '/course',
+        component: () => import('../views/courses/Course'),
+        meta: {title: '所有课程'}
+      }
+      ]
   }
 ]
 
