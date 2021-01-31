@@ -24,6 +24,11 @@ const routes = [
         path: '/course',
         component: () => import('../views/courses/Course'),
         meta: {title: '所有课程'}
+      },
+      {
+        path: '/detail',
+        component: () => import('../views/courses/CourseDetail'),
+        meta: {title: '课程详情'}
       }
       ]
   }
