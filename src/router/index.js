@@ -26,8 +26,13 @@ const routes = [
         meta: {title: '所有课程'}
       },
       {
-        path: '/detail',
+        path: '/course/:id',
         component: () => import('../views/courses/CourseDetail'),
+        meta: {title: '课程详情'}
+      },
+      {
+        path: '/users/:id',
+        component: () => import('../views/user/UserDetail'),
         meta: {title: '课程详情'}
       }
       ]

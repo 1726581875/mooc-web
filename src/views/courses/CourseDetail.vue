@@ -2,6 +2,7 @@
   <div>
     <div class="container layout layout-margin-top">
 
+      <!-- 面包屑 -->
       <ol class="breadcrumb">
         <li><a href="/courses/">全部课程</a></li>
 
@@ -13,118 +14,64 @@
 
         <li class="active">
           <a href="/courses/1">
-            Linux 基础入门（新版）
+            {{course.name}}
           </a>
         </li>
       </ol>
 
       <div class="row">
+        <!-- 1、课程基本信息 -->
         <div class="col-md-9 layout-body">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           <div class="side-image side-image-mobile">
-            <img src="https://dn-simplecloud.shiyanlou.com/ncn1.jpg?imageView2/0/h/300">
+            <img :src="course.imageUrl">
           </div>
-          <div class="content course-infobox">
+          <!-- if  isHideVideo = true 显示以下信息-->
+          <div class="content course-infobox" v-if="isHideVideo">
             <div class="clearfix course-infobox-header">
               <h4 class="pull-left course-infobox-title">
-
-                <span>Linux 基础入门（新版）</span>
-
+                <span>{{course.name}}</span>
               </h4>
               <div class="pull-right course-infobox-follow"
                    data-follow-url="/courses/1/follow"
                    data-unfollow-url="/courses/1/unfollow">
                 <span class="course-infobox-followers">4401</span>
                 <span>人关注</span>
-
                 <i class="fa fa-star-o" data-next="/login?next=%2Fcourses%2F1"></i>
 
               </div>
             </div>
             <div class="clearfix course-infobox-body">
               <div class="course-infobox-content">
-                <p>要在实验楼愉快地学习，先要熟练地使用 Linux，本实验介绍 Linux 基本操作，shell 环境下的常用命令。</p>
-
+                <p>{{course.summary}}</p>
               </div>
 
+             <!-- 学习进度条 -->
               <div class="course-infobox-progress">
-
-
-
-                <div class="course-progress-new"></div>
-
-
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
-                <div class="course-progress-new"></div>
-
+                <div class="course-progress-new" v-for="index in chapterList.length"></div>
                 <span>（0/17）</span>
               </div>
-
-
-
-
 
               <div class="pull-right course-infobox-price">
 
               </div>
-
-            </div>
-
-            <div class="clearfix course-infobox-footer">
-
-              <div class="pull-right course-infobox-learned">85243 人学过</div>
-            </div>
+              </div>
 
           </div>
+          <!-- 否则 显示视频-->
+          <div class="content course-infobox" v-else>
+            <div class="clearfix course-infobox-body">
+            <video width="100%" height="100%" :src="nowVideoUrl" id="video" controls="controls"></video>
+            </div>
+            <div class="clearfix course-infobox-footer">
+              <div class="pull-right course-infobox-learned">{{course.learningNum}} 人学过</div>
+              <div class="course-infobox-content">
+                <p>{{course.summary}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2、课程章节信息 -->
           <div class="content">
             <ul class="nav nav-tabs" role="tablist">
 
@@ -147,365 +94,28 @@
               <div role="tabpanel" class="tab-pane active" id="labs">
 
 
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第1节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux 系统简介">Linux 系统简介</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-                    <a class="btn btn-default" href="#sign-modal" data-toggle="modal" data-sign="signin" data-next="/courses/1">查看文档</a>
-                    <a class="btn btn-primary" href="#sign-modal" data-toggle="modal" data-sign="signin" data-next="/courses/1">开始实验</a>
-
-
-
-                  </div>
-                </div>
-
-
-
+                <!-- 大章列表 chapterList -->
+           <div v-for="(chapter,chapterIndex) in chapterList" :key="chapter.id">
 
                 <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第2节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="基本概念及操作">基本概念及操作</div>
+                  <div class="lab-item-index"><span>第{{chapterIndex + 1}}章</span></div>
+                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" :title="chapter.name">{{chapter.name}}</div>
                   <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
                   </div>
                 </div>
-
-
-
-
-                <div class="lab-item ">
+                <!-- 小节列表 sectionList -->
+                <div class="lab-item " v-for="(section,sectionIndex) in chapter.sectionList" :key="section.id">
                   <div class="lab-item-status">
-
                     <img src="../../../public/img/lab-not-ok.png">
-
                   </div>
-                  <div class="lab-item-index">第3节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="用户及文件权限管理">用户及文件权限管理</div>
+                  <div class="lab-item-index">第{{chapterIndex + 1}}-{{sectionIndex + 1}}节</div>
+                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" :title="section.title">{{section.title}}</div>
                   <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
+                    <a class="btn btn-default" href="javascript:void(0);">下载视频</a>
+                    <a class="btn btn-primary" href="javascript:void(0);" @click="onClickPlayVideo(section.video)">点击播放</a>
                   </div>
                 </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第4节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux 目录结构及文件基本操作">Linux 目录结构及文件基本操作</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第5节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="环境变量与文件查找">环境变量与文件查找</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第6节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="文件打包与解压缩">文件打包与解压缩</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第7节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="文件系统操作与磁盘管理">文件系统操作与磁盘管理</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第8节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux下的帮助命令">Linux下的帮助命令</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第9节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux任务计划crontab">Linux任务计划crontab</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第10节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="命令执行顺序控制与管道">命令执行顺序控制与管道</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第11节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="简单的文本处理">简单的文本处理</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第12节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="数据流重定向">数据流重定向</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第13节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="正则表达式基础">正则表达式基础</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第14节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux下软件安装">Linux下软件安装</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第15节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux 进程概念">Linux 进程概念</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第16节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux 进程管理">Linux 进程管理</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
-
-
-
-
-                <div class="lab-item ">
-                  <div class="lab-item-status">
-
-                    <img src="../../../public/img/lab-not-ok.png">
-
-                  </div>
-                  <div class="lab-item-index">第17节</div>
-                  <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" title="Linux 日志系统">Linux 日志系统</div>
-                  <div class="pull-right lab-item-ctrl">
-
-
-
-
-
-
-                  </div>
-                </div>
+           </div>
 
 
               </div>
@@ -578,12 +188,13 @@
             </div>
           </div>
 
-
         </div>
+
         <div class="col-md-3 layout-side">
 
+          <!-- 课程封面 -->
           <div class="side-image side-image-pc">
-            <img src="../../../public/img/ncn1.jpg?imageView2/0/h/300">
+            <img :src="course.imageUrl">
           </div>
 
 
@@ -596,10 +207,10 @@
             </div>
             <div class="sidebox-body mooc-content">
               <a href="/user/20406" target="_blank">
-                <img src="../../../public/img/Linux&c.png">
+                <img :src="teacher.imageUrl">
               </a>
               <div class="mooc-info">
-                <div class="name"><strong>Edward</strong> </div>
+                <div class="name"><strong>{{teacher.name}}</strong> </div>
 
                 <div class="courses">共发布过<strong>18</strong>门课程</div>
               </div>
@@ -647,6 +258,8 @@
 
         </div>
       </div>
+
+
     </div>
 
 
@@ -1129,8 +742,11 @@
     data() {
       return {
         course: {},
+        teacher:{},
+        chapterList:[],
         tagList:[],
-        courseList:[],
+        isHideVideo:true,
+        nowVideoUrl:'',
         queryParam:{
           tagIdList:[],
           matchStr:'',
@@ -1141,9 +757,46 @@
       };
     },
     created() {
-
+        let courseId = this.$route.params.id;
+        this.getCourseDetail(courseId);
     },
     methods: {
+
+      /**
+       * 根据课程Id获取课程详情
+       * @param courseId
+       */
+      getCourseDetail(courseId){
+
+        this.$axios.get(this.$requestBaseUrl.core + '/courses/' + courseId)
+                .then(resp=>{
+                  if(resp.data.success){
+                    let courseDetail = resp.data.data;
+                    this.course = courseDetail;
+                    //课程封面全路径
+                    this.course.imageUrl = this.$requestBaseUrl.core + courseDetail.image;
+                    //课程的教师
+                    this.teacher = courseDetail.teacher;
+                    this.teacher.imageUrl = this.$requestBaseUrl.core + this.teacher.image;
+                    //章节列表
+                    this.chapterList = courseDetail.chapterList;
+
+                  }else {
+                    this.$message.warning('获取课程详情失败，请刷新看看');
+                  }
+                }).catch(error=>this.$message.error('获取课程详情失败，服务器异常'));
+
+      },
+      /**
+       * 点击播放视频按钮触发
+       * @param videoUrl
+       */
+      onClickPlayVideo(videoUrl){
+        //显示视频播放器
+        this.isHideVideo = false;
+        //设置对应播放地址
+        this.nowVideoUrl = this.$requestBaseUrl.file + videoUrl;
+      }
 
     }
   }
