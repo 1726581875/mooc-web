@@ -42,7 +42,7 @@
               <div class="userinfo-banner-status">
 
 
-                <span>学生</span>
+                <span>{{teacher.userType}}</span>
 
                 <a href="/edu/1" target="_blank">北京大学</a>
 
@@ -72,14 +72,14 @@
 
 
             <ul class="nav nav-tabs" rolw="tablist">
-              <li role="presentation" class="active">
-                <a href="study.html" role="tab">实验课程</a>
+              <li role="presentation" class="active" id="mooc-tag-1">
+                <a href="javascript:void(0);" role="tab" @click="changeTag(1)">创建的课程</a>
               </li>
-              <li role="presentation">
-                <a href="reports.html" role="tab">实验报告</a>
+              <li role="presentation" id="mooc-tag-2">
+                <a href="javascript:void(0);" role="tab" @click="changeTag(2)">收藏的课程</a>
               </li>
-              <li role="presentation">
-                <a href="questions.html" role="tab">实验讨论</a>
+              <li role="presentation" id="mooc-tag-3">
+                <a href="javascript:void(0);" role="tab" @click="changeTag(3)">发表的评论</a>
               </li>
 
             </ul>
@@ -319,7 +319,7 @@
           </div>
           <div class="modal-body">
 
-            <p><h4><a href="#sign-modal" data-toggle="modal" data-sign="signin">登录</a>后邀请好友注册，您和好友将分别获赠3个实验豆！</h4></p>
+            <p><h4><a href="#sign-modal" data-toggle="modal" data-sign="signin">登录</a>后邀请好友注册，您和好友将分别获赠3个实验豆！</h4><p>
 
             <div id="msg-modal"></div>
           </div>
@@ -472,8 +472,12 @@
         teacher: {},
           teacherId:0,
         courseList: [],
+        /**
+         * 选择的标签1、创建的课程 2、收藏的课程 3、发布的评论
+         */
+        selectedTag:1,
         queryParam: {
-          teachId: 0,
+          userId: 0,
           pageIndex: 1,
           pageSize: 15
         },
@@ -487,6 +491,28 @@
       this.getUserDetail(userId);
     },
     methods: {
+
+
+      changeTag(flag){
+        this.selectedTag = flag;
+        $('#mooc-tag-' + flag).addClass("active");
+        $("#mooc-tag-" + flag).siblings().removeClass("active");
+
+        /**
+         * 根据不同选择，调用不同方法
+         */
+        if(flag == 1){
+          this.getCourseByTeacherId();
+        }else if(flag == 2){
+          this.getCollectionCourseByUserId();
+        }else {
+
+        }
+
+
+      },
+
+
         /**
          * 获取用户信息
          * @param teacherId
@@ -505,10 +531,9 @@
 
 
       getCourseByTeacherId() {
-        this.queryParam.teacherId = this.teacherId;
-        this.$axios.get(this.$requestBaseUrl.core + '/courses/listByTeachId?teacherId='
-          + this.teacherId + '&pageIndex=' + this.queryParam.pageIndex + '&pageSize=' + this.queryParam.pageSize
-        )
+        this.queryParam.userId = this.teacherId;
+        this.$axios.get(this.$requestBaseUrl.core + '/courses/listByTeachId',{params: this.queryParam
+        })
           .then(res => {
             if (res.data.success) {
                 let respData = res.data.data;
@@ -526,12 +551,38 @@
           }).catch(err => this.$message.error("获取课程列表失败，服务器异常"));
       },
 
-        onClickPage(index){
+      getCollectionCourseByUserId() {
+        this.queryParam.teacherId = this.teacherId;
+        this.$axios.get(this.$requestBaseUrl.core + '/courses/collection/list',{params: this.queryParam
+        })
+                .then(res => {
+                  if (res.data.success) {
+                    let respData = res.data.data;
+                    this.courseList = respData.content;
+                    this.courseList.forEach(course=> course.imageUrl = this.$requestBaseUrl.core + course.image);
+
+                    this.pageCount = respData.pageCount;
+                    //设置第一页样式active
+                    if(this.queryParam.pageIndex == 1) {
+                      $("#mooc-index-1").addClass("active");
+                    }
+                  }else {
+                    this.$message.warning("获取收藏课程列表失败，服务器异常");
+                  }
+                }).catch(err => this.$message.error("获取收藏课程列表失败，服务器异常"));
+      },
+
+
+      /**
+       * 分页相关
+       * @param index
+       */
+      onClickPage(index){
             $("#mooc-index-"+index).siblings().removeClass("active");
             $("#mooc-index-"+index).addClass("active");
 
             this.queryParam.pageIndex = index;
-            this.getCourseByTeacherId();
+            this.changeTag(this.selectedTag);
         },
 
         prePage(){
@@ -545,7 +596,7 @@
             $("#mooc-index-"+prePageIndex).addClass("active");
             //查询
             this.queryParam.pageIndex = prePageIndex;
-            this.getCourseByTeacherId();
+            this.changeTag(this.selectedTag);
         },
         nextPage(){
             //参数判断
@@ -558,7 +609,7 @@
             $("#mooc-index-"+nextPageIndex).addClass("active");
             //查询
             this.queryParam.pageIndex = nextPageIndex;
-            this.getCourseByTeacherId();
+            this.changeTag(this.selectedTag);
         }
 
     }
