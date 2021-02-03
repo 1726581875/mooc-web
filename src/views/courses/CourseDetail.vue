@@ -111,7 +111,7 @@
                   <div class="lab-item-index">第{{chapterIndex + 1}}-{{sectionIndex + 1}}节</div>
                   <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" :title="section.title">{{section.title}}</div>
                   <div class="pull-right lab-item-ctrl">
-                    <a class="btn btn-default" href="javascript:void(0);">下载视频</a>
+                    <a class="btn btn-default" href="javascript:void(0);" @click="onClickDownloadVideo(section.fileId)">下载视频</a>
                     <a class="btn btn-primary" href="javascript:void(0);" @click="onClickPlayVideo(section.video)">点击播放</a>
                   </div>
                 </div>
@@ -796,6 +796,10 @@
         this.isHideVideo = false;
         //设置对应播放地址
         this.nowVideoUrl = this.$requestBaseUrl.file + videoUrl;
+      },
+
+      onClickDownloadVideo(fileId){
+        window.location.href = this.$requestBaseUrl.file + "/fileManage/download/" + fileId;
       }
 
     }
