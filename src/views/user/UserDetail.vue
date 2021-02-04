@@ -11,7 +11,7 @@
 
               <div class="user-avatar ">
                 <a class="avatar" href="#" target="_blank">
-                  <img :src="teacher.imageUrl">
+                  <img :src="user.imageUrl">
                 </a>
 
                 <a class="member-icon" href="../../vip/index.html" target="_blank">
@@ -32,7 +32,7 @@
 
                 <div class="user-username ">
                   <a class="username" href="#" target="_blank">
-                      {{teacher.name}}
+                      {{user.name}}
                   </a>
                   <span class="user-level">L195</span>
                 </div>
@@ -42,7 +42,7 @@
               <div class="userinfo-banner-status">
 
 
-                <span>{{teacher.userType}}</span>
+                <span>{{user.userType}}</span>
 
                 <a href="/edu/1" target="_blank">北京大学</a>
 
@@ -103,7 +103,7 @@
 
 
                   <div class="col-md-4 col-sm-6  course" v-for="course in courseList" :key="course.id">
-                    <a class="course-box" href="../../courses/show.html">
+                    <a class="course-box" :href="'/courses/' + course.id">
                       <div class="sign-box">
 
 
@@ -469,8 +469,8 @@
     name: "UserDetail",
     data() {
       return {
-        teacher: {},
-          teacherId:0,
+        user: {},
+        teacherId:0,
         courseList: [],
         /**
          * 选择的标签1、创建的课程 2、收藏的课程 3、发布的评论
@@ -521,8 +521,8 @@
             this.$axios.get(this.$requestBaseUrl.core + '/admin/moocUsers/' + teacherId)
               .then(res=>{
                   if(res.data.success){
-                      this.teacher = res.data.data;
-                      this.teacher.imageUrl = this.$requestBaseUrl.core + this.teacher.userImage;
+                      this.user = res.data.data;
+                      this.user.imageUrl = this.$requestBaseUrl.core + this.user.userImage;
                   }else {
                       this.$message.warning('获取用户详情失败，请刷新看看');
                   }

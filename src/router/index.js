@@ -21,12 +21,12 @@ const routes = [
     component: () => import('../views/Home'),
     children: [
       {
-        path: '/course',
+        path: '/courses',
         component: () => import('../views/courses/Course'),
         meta: {title: '所有课程'}
       },
       {
-        path: '/course/:id',
+        path: '/courses/:id',
         component: () => import('../views/courses/CourseDetail'),
         meta: {title: '课程详情'}
       },
@@ -34,6 +34,11 @@ const routes = [
         path: '/users/:id',
         component: () => import('../views/user/UserDetail'),
         meta: {title: '课程详情'}
+      },
+      {
+        path: '/questions',
+        component: () => import('../views/question/Question'),
+        meta: {title: '问答模块'}
       }
       ]
   }

@@ -4,11 +4,11 @@
 
       <!-- 面包屑 -->
       <ol class="breadcrumb">
-        <li><a href="/courses/">全部课程</a></li>
+        <li><a href="/course">全部课程</a></li>
 
         <li>
 
-          <a href="/courses/?tag=Linux">Linux</a>
+          <a href="/courses/?tag=Linux">所属分类(待对接)</a>
 
         </li>
 
@@ -36,9 +36,9 @@
                    data-follow-url="/courses/1/follow"
                    data-unfollow-url="/courses/1/unfollow">
                 <span class="course-infobox-followers">4401</span>
-                <span>人关注</span>
-                <i class="fa fa-star-o" data-next="/login?next=%2Fcourses%2F1"></i>
-
+                <span>人收藏</span>
+                <i class="fa fa-star" data-next="/login?next=%2Fcourses%2F1" @click="onClickCollection(course.id)" v-if="isCollection"></i>
+                <i class="fa fa-star-o" data-next="/login?next=%2Fcourses%2F1" @click="onClickCollection(course.id)" v-else></i>
               </div>
             </div>
             <div class="clearfix course-infobox-body">
@@ -221,7 +221,7 @@
               </div>
             </div>
             <div class="sidebox-footer mooc-footer">
-              <a href="/teacher/20406" target="_blank">查看老师的所有课程 ></a>
+              <a :href="'/users/' + teacher.id" target="_blank">查看老师的所有课程 ></a>
             </div>
           </div>
 
@@ -753,7 +753,9 @@
           pageIndex:1,
           pageSize:15
         },
-        pageCount: 1
+        pageCount: 1,
+        //是否已经收藏该课程，图标显示样式
+        isCollection: false
       };
     },
     created() {
@@ -761,6 +763,20 @@
         this.getCourseDetail(courseId);
     },
     methods: {
+
+      /**
+       * 点击收藏课程
+       */
+      onClickCollection(courseId){
+        if(this.isCollection){
+          this.$message.success('取消收藏');
+
+        }else {
+          this.$message.success('收藏成功');
+        }
+        this.isCollection = !this.isCollection;
+
+      },
 
       /**
        * 根据课程Id获取课程详情

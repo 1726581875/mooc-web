@@ -44,7 +44,7 @@
                <!--     展示课程列表开始       -->
 
                             <div class="col-md-4 col-sm-6  course" v-for="course in courseList" :key="course.id">
-                                <a class="course-box" href="show.html">
+                                <a class="course-box" :href="'courses/' + course.id">
                                     <div class="sign-box">
                                         <i class="fa fa-star-o course-follow pull-right"
                                            data-follow-url="/courses/63/follow"
