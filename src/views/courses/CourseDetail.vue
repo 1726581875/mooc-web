@@ -35,7 +35,7 @@
               <div class="pull-right course-infobox-follow"
                    data-follow-url="/courses/1/follow"
                    data-unfollow-url="/courses/1/unfollow">
-                <span class="course-infobox-followers">4401</span>
+                <span class="course-infobox-followers">{{course.collectionNum}}</span>
                 <span>人收藏</span>
                 <i class="fa fa-star" data-next="/login?next=%2Fcourses%2F1" @click="onClickCollection(course.id)" v-if="isCollection"></i>
                 <i class="fa fa-star-o" data-next="/login?next=%2Fcourses%2F1" @click="onClickCollection(course.id)" v-else></i>
