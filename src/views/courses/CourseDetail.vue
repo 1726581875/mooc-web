@@ -4,7 +4,7 @@
 
       <!-- 面包屑 -->
       <ol class="breadcrumb">
-        <li><a href="/course">全部课程</a></li>
+        <li><a href="/courses">全部课程</a></li>
 
         <li>
 

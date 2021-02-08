@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Index from '../views/Index.vue'
+import Index from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -9,11 +9,6 @@ const routes = [
     path: '/',
     name: 'Index',
     component: Index
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import('../views/Login')
   },
   {
     path: '/home',
@@ -39,7 +34,12 @@ const routes = [
         path: '/questions',
         component: () => import('../views/question/Question'),
         meta: {title: '问答模块'}
-      }
+      },
+      {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/Login')
+      },
       ]
   }
 ]
