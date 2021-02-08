@@ -44,16 +44,20 @@
 
                     </ul>
 
-
-                    <div class="navbar-right btns">
+                    <!-- 登录、注册、退出登录按钮-->
+                    <div class="navbar-right btns" v-if="!userIsLogin">
                         <a class="btn btn-default navbar-btn sign-in" data-sign="signin" href="#sign-modal" data-toggle="modal">登录</a>
                         <a class="btn btn-default navbar-btn sign-up" data-sign="signup" href="#sign-modal" data-toggle="modal">注册</a>
+                    </div>
+                    <div class="navbar-right btns" v-else>
+                        <a class="btn btn-default navbar-btn sign-up" data-sign="signup" @click="loginOut">退出</a>
                     </div>
 
 
                     <form class="navbar-form navbar-right" action="search" method="get" role="search">
-                        <div class="form-group">
+                        <div class="form-group btns">
                             <input type="text" class="form-control" name="search" autocomplete="off" placeholder="搜索 课程/问答">
+                            <a class="btn btn-default" data-sign="signup" href="#sign-modal" data-toggle="modal">搜索</a>
                         </div>
                     </form>
                 </div>
@@ -137,7 +141,50 @@
 
 <script>
     export default {
-        name: "Home"
+        name: "Home",
+        data() {
+            return {
+                userIsLogin:false
+            }
+        },
+        created() {
+           this.initUserLoginStatus();
+        },
+        methods: {
+            initUserLoginStatus(){
+                console.log('initUserIsLogin..');
+
+                this.$axios.get(this.$requestBaseUrl.authorize + '/user/isLogin')
+                  .then(res=>{
+                      if(res.data.success){
+                          this.userIsLogin = res.data.data;
+                      }else {
+                          this.$message.warning('判断登录状态发生异常');
+                      }
+                  }).catch(err=>{
+                    this.$message.error('判断登录状态发生异常');
+                });
+            },
+
+            loginOut(){
+                console.log('点击了退出登录..')
+                localStorage.removeItem('user-id');
+                localStorage.removeItem('user-token');
+                localStorage.removeItem('user-account');
+                this.$axios.get(this.$requestBaseUrl.authorize + '/user/loginOut')
+                  .then(res=>{
+                      if(res.data.success){
+                          this.$message.success('退出成功');
+                      }else {
+                          this.$message.warning('退出操作发生异常');
+                      }
+                  }).catch(err=>{
+                    this.$message.error('退出操作发生异常');
+                });
+                location.reload();
+            }
+
+        }
     }
 </script>
 

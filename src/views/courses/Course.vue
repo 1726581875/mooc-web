@@ -108,9 +108,9 @@
 
 
 
+           <!-- 用户信息 -->
 
-
-                    <div class="panel panel-default panel-userinfo">
+                    <div class="panel panel-default panel-userinfo" v-if="!userIsLogin">
                         <div class="panel-body body-userinfo">
                             <div class="media userinfo-header">
                                 <div class="media-left">
@@ -123,7 +123,6 @@
                                     </div>
                                 </div>
                                 <div class="media-body">
-
                                     <span class="media-heading username">欢迎来到实验楼</span>
                                     <p class="vip-remain">做实验，学编程</p>
 
@@ -178,6 +177,29 @@
                         </div>
                     </div>
 
+                    <div class="sidebox mooc-teacher"  v-if="userIsLogin">
+                        <div class="sidebox-header mooc-header">
+                            <h4 class="sidebox-title">课程教师</h4>
+                        </div>
+                        <div class="sidebox-body mooc-content">
+                            <a :href="'/users/' + user.id" target="_blank">
+                                <img :src="user.imageUrl">
+                            </a>
+                            <div class="mooc-info">
+                                <div class="name"><strong>{{user.name}}</strong> </div>
+
+                                <div class="courses">共收藏过<strong>18</strong>门课程</div>
+                            </div>
+                            <div class="mooc-extra-info">
+                                <div class="word long-paragraph">
+                                    资深程序员，5年Linux运维、企业级开发经验及数据库实战和教学经验。
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sidebox-footer mooc-footer">
+                            <a :href="'/users/' + user.id" target="_blank">查看收藏的所有课程 ></a>
+                        </div>
+                    </div>
 
                     <div class="sidebox">
 
@@ -398,13 +420,44 @@
                     pageIndex:1,
                     pageSize:15
                 },
-                pageCount: 1
+                pageCount: 1,
+                //用户基本信息
+                user:{
+                    id:''
+                },
+                //用户是否已经登录
+                userIsLogin:false
             };
         },
         created() {
+            //判断登录状态
+            this.initUserLoginStatus();
+            if(this.userIsLogin) {
+                this.findUserById(userId);
+            }
+            //通知父组件（导航栏，更新视图）
+
+
+            this.$emit('initUserIsLogin', null);
+
             this.listAllCategory();
         },
         methods: {
+
+            initUserLoginStatus(){
+                console.log('initUserIsLogin..');
+
+                this.$axios.get(this.$requestBaseUrl.authorize + '/user/isLogin')
+                  .then(res=>{
+                      if(res.data.success){
+                          this.userIsLogin = res.data.data;
+                      }else {
+                          this.$message.warning('判断登录状态发生异常');
+                      }
+                  }).catch(err=>{
+                    this.$message.error('判断登录状态发生异常');
+                });
+            },
 
             /**
              * 获取课程分类标签
@@ -535,7 +588,18 @@
               //查询
               this.queryParam.pageIndex = nextPageIndex;
               this.listCourse();
-          }
+          },
+            findUserById(id){
+              this.$axios.get(this.$requestBaseUrl.core + '/users/' + id)
+                .then(res=>{
+                    if(res.data.success){
+                        this.user = res.data.data;
+                        this.user.imageUrl = this.$requestBaseUrl.core + this.user.userImage;
+                    }else {
+                        this.$message.warning('加载用户信息失败,请刷新看看');
+                    }
+                }).catch(err=>this.$message.error('加载用户信息失败'));
+            }
 
         }
     }

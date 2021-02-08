@@ -13,15 +13,6 @@
                 <a class="avatar" href="#" target="_blank">
                   <img :src="user.imageUrl">
                 </a>
-
-                <a class="member-icon" href="../../vip/index.html" target="_blank">
-
-                  <img src="
-            ../../../public/imgvip-icon.png
-          ">
-
-                </a>
-
               </div>
 
 
