@@ -580,7 +580,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-envelope" style="margin:0;"></i>
                                             </div>
-                                            <input type="email" name="login" class="form-control" placeholder="请输入邮箱">
+                                            <input type="text" name="login" class="form-control" v-model:value="param.username" placeholder="请输入账号">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -588,23 +588,23 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-lock" style="margin:0;"></i>
                                             </div>
-                                            <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                                            <input type="password" name="password" class="form-control" placeholder="请输入密码" v-model:value="param.password">
                                         </div>
                                     </div>
-                                    <div class="form-inline verify-code-item" style="display:none;">
+                                    <div class="form-inline verify-code-item">
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="text" name="captcha_v" class="form-control" placeholder="请输入验证码">
+                                                <input type="text" name="captcha_v" class="form-control" v-model:value="param.code" placeholder="请输入验证码">
                                             </div>
                                         </div>
-                                        <img class="verify-code" src="" source="https://www.shiyanlou.com/captcha.gif">
+                                        <img class="verify-code" :src="vcUrl" @click="updateVerificationCode">
                                     </div>
                                     <div class="form-group remember-login">
                                         <input name="remember" type="checkbox" value="y"> 下次自动登录
                                         <a class="pull-right" href="reset_password/index.html">忘记密码？</a>
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-primary" name="submit" type="submit" value="进入实验楼">
+                                        <input class="btn btn-primary" name="submit" type="submit" value="登录" @click.prevent="submitLogin">
                                     </div>
                                     <div class="form-group widget-signin">
                                         <span>快速登录</span>
@@ -707,17 +707,12 @@
                     password: 'root',
                     code:''
                 },
-                rules: {
-                    username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-                    password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-                    code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
-                },
                 vcUrl: this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime(),
 
             };
         },
         methods: {
-            submitForm() {
+            submitLogin() {
                 let valid = true;
                     if (valid) {
                         let loginParam =JSON.parse(JSON.stringify(this.param));
@@ -728,6 +723,7 @@
                               let respResult = resp.data;
                               // 如果登录成功
                               if(respResult.success) {
+                                  $('#sign-modal').modal('hide');
                                   // let path = this.$route.query.redirect;
                                   // this.$router.replace((path == '/' || path == undefined) ? '/about' : path);
                                   console.log("登录成功...")

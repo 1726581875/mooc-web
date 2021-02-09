@@ -279,15 +279,16 @@
                                 <a href="#signup-form" aria-controls="signup-form" role="tab" data-toggle="tab">注册</a>
                             </li>
                         </ul>
+                        <!-- 登录弹出框 -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="signin-form">
-                                <form action="/login" method="post">
+                                <form>
                                     <div class="form-group">
                                         <div class="input-group">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-envelope" style="margin:0;"></i>
                                             </div>
-                                            <input type="email" name="login" class="form-control" placeholder="请输入邮箱">
+                                            <input type="text" name="username" class="form-control" v-model:value="param.username" placeholder="请输入账号">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -295,23 +296,23 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-lock" style="margin:0;"></i>
                                             </div>
-                                            <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                                            <input type="password" name="password" class="form-control" v-model:value="param.password" placeholder="请输入密码">
                                         </div>
                                     </div>
-                                    <div class="form-inline verify-code-item" style="display:none;">
+                                    <div class="form-inline verify-code-item" >
                                         <div class="form-group">
                                             <div class="input-group">
-                                                <input type="text" name="captcha_v" class="form-control" placeholder="请输入验证码">
+                                                <input type="text" name="captcha_v" class="form-control" v-model:value="param.code" placeholder="请输入验证码">
                                             </div>
                                         </div>
-                                        <img class="verify-code" src="" source="https://www.shiyanlou.com/captcha.gif">
+                                        <img class="verify-code" :src="vcUrl" @click="updateVerificationCode">
                                     </div>
                                     <div class="form-group remember-login">
                                         <input name="remember" type="checkbox" value="y"> 下次自动登录
                                         <a class="pull-right" href="../reset_password/index.html">忘记密码？</a>
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-primary" name="submit" type="submit" value="进入实验楼">
+                                        <input class="btn btn-primary" name="submit" type="submit" value="登录" @click.prevent="submitLogin">
                                     </div>
                                     <div class="form-group widget-signin">
                                         <span>快速登录</span>
@@ -326,6 +327,7 @@
                                     </div>
                                 </form>
                             </div>
+                            <!-- 注册弹出框 -->
                             <div role="tabpanel" class="tab-pane" id="signup-form">
                                 <form action="/register" method="post">
                                     <div class="form-group">
@@ -333,7 +335,7 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-envelope" style="margin:0;"></i>
                                             </div>
-                                            <input type="email" name="email" class="form-control" placeholder="请输入邮箱">
+                                            <input type="email" name="username" class="form-control" placeholder="请输入用户名">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -379,14 +381,8 @@
 
 
         <div id="base-data"
-
-
              data-flash="false"
-
-
-
              data-is-login=false
-
              data-is-jwt=true
              data-socket-url="wss://comet.shiyanlou.com"
              data-msg-user=""
@@ -407,6 +403,7 @@
 </template>
 
 <script>
+    import { encrypt } from '@/utils/rsaEncrypt'
     export default {
         name: "Course",
         data() {
@@ -426,24 +423,64 @@
                     id:''
                 },
                 //用户是否已经登录
-                userIsLogin:false
+                userIsLogin:false,
+                //登录相关
+                param: {
+                    username: 'zhangsan',
+                    password: 'root',
+                    code:''
+                },
+                vcUrl: this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime(),
             };
         },
         created() {
             //判断登录状态
             this.initUserLoginStatus();
-            if(this.userIsLogin) {
-                this.findUserById(userId);
-            }
             //通知父组件（导航栏，更新视图）
-
-
             this.$emit('initUserIsLogin', null);
-
             this.listAllCategory();
         },
         methods: {
-
+            /**
+             * 点击登录
+             */
+            submitLogin() {
+                let valid = true;
+                if (valid) {
+                    let loginParam =JSON.parse(JSON.stringify(this.param));
+                    //密码加密传输
+                    loginParam.password = encrypt(this.param.password);
+                    this.$axios.post(this.$requestBaseUrl.authorize+'/user/login',loginParam)
+                      .then(resp => {
+                          let respResult = resp.data;
+                          // 如果登录成功
+                          if(respResult.success) {
+                              // let path = this.$route.query.redirect;
+                              // this.$router.replace((path == '/' || path == undefined) ? '/about' : path);
+                              console.log("登录成功...")
+                              localStorage.setItem('user-token', respResult.data.token);
+                              localStorage.setItem('user-id', respResult.data.userId);
+                              localStorage.setItem('user-account', this.param.username);
+                              location.reload();
+                          }else {
+                              this.$message.warning(respResult.msg);
+                              this.updateVerificationCode();
+                          }
+                      });
+                } else {
+                    this.$message.error('请输入账号和密码');
+                    return false;
+                }
+            },
+            /**
+             * 刷新二维码
+             */
+            updateVerificationCode() {
+                this.vcUrl = this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime();
+            },
+            /**
+             * 判断是否是登录状态
+             */
             initUserLoginStatus(){
                 console.log('initUserIsLogin..');
 
@@ -451,6 +488,11 @@
                   .then(res=>{
                       if(res.data.success){
                           this.userIsLogin = res.data.data;
+                          //获取用户基本信息
+                          if(this.userIsLogin) {
+                              let userId = localStorage.getItem('user-id');
+                              this.findUserById(userId);
+                          }
                       }else {
                           this.$message.warning('判断登录状态发生异常');
                       }
@@ -589,6 +631,10 @@
               this.queryParam.pageIndex = nextPageIndex;
               this.listCourse();
           },
+            /**
+             * 查找用户基本信息
+             * @param id
+             */
             findUserById(id){
               this.$axios.get(this.$requestBaseUrl.core + '/users/' + id)
                 .then(res=>{

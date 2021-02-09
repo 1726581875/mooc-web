@@ -50,7 +50,7 @@
                         <a class="btn btn-default navbar-btn sign-up" data-sign="signup" href="#sign-modal" data-toggle="modal">注册</a>
                     </div>
                     <div class="navbar-right btns" v-else>
-                        <a class="btn btn-default navbar-btn sign-up" data-sign="signup" @click="loginOut">退出</a>
+                        <a class="btn btn-default navbar-btn sign-up" data-sign="signup" @click.prevent="loginOut">退出</a>
                     </div>
 
 
@@ -168,20 +168,21 @@
 
             loginOut(){
                 console.log('点击了退出登录..')
-                localStorage.removeItem('user-id');
-                localStorage.removeItem('user-token');
-                localStorage.removeItem('user-account');
                 this.$axios.get(this.$requestBaseUrl.authorize + '/user/loginOut')
                   .then(res=>{
                       if(res.data.success){
                           this.$message.success('退出成功');
+                          localStorage.removeItem('user-id');
+                          localStorage.removeItem('user-token');
+                          localStorage.removeItem('user-account');
+                          location.reload();
                       }else {
                           this.$message.warning('退出操作发生异常');
                       }
                   }).catch(err=>{
                     this.$message.error('退出操作发生异常');
                 });
-                location.reload();
+
             }
 
         }
