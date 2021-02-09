@@ -49,7 +49,7 @@
                         <a class="btn btn-default navbar-btn sign-in" data-sign="signin" href="#sign-modal" data-toggle="modal">登录</a>
                         <a class="btn btn-default navbar-btn sign-up" data-sign="signup" href="#sign-modal" data-toggle="modal">注册</a>
                     </div>
-                    <div class="navbar-right btns" v-else>
+                    <div class="navbar-right btns" v-if="userIsLogin">
                         <a class="btn btn-default navbar-btn sign-up" data-sign="signup" @click.prevent="loginOut">退出</a>
                     </div>
 
@@ -146,6 +146,11 @@
             return {
                 userIsLogin:false
             }
+        },
+        watch:{
+            $route(to,from){
+                this.initUserLoginStatus();
+             }
         },
         created() {
            this.initUserLoginStatus();

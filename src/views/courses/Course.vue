@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="course-img">
 
-                                        <img alt="新手指南之玩转实验楼" :src="course.imageUrl">
+                                        <img alt="新手指南之玩转慕课" :src="course.imageUrl">
 
                                     </div>
 
@@ -437,7 +437,7 @@
             //判断登录状态
             this.initUserLoginStatus();
             //通知父组件（导航栏，更新视图）
-            this.$emit('initUserIsLogin', null);
+            this.$emit('initUserLoginStatus', null);
             this.listAllCategory();
         },
         methods: {

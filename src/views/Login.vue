@@ -24,11 +24,15 @@
                                            id="password" v-model:value="param.password" type="password" placeholder="密码">
                                     <div class="help-block text-left"></div>
                                 </div>
-                                <div class="form-group">
-                                    <input class="form-control" name="code" id="code" v-model:value="param.code" type="text">
-                                    <div @click="updateVerificationCode"><img :src="vcUrl"></div>
+                                <div class="form-inline verify-code-item">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <input type="text" name="captcha_v" class="form-control" v-model:value="param.code" placeholder="请输入验证码">
+                                        </div>
+                                    </div>
+                                    <img class="verify-code" :src="vcUrl" @click="updateVerificationCode">
                                 </div>
-                                <button class="btn register"  @click.prevent="submitForm">登录</button>
+                                <button class="btn register"  @click.prevent="submitLogin">登录</button>
                                 <p class="tip">点击"加入实验楼"，表示您已经同意我们的<a href="privacy/index.html" target="_blank"> 隐私条款</a></P>
                             </form>
 
