@@ -68,6 +68,12 @@
               <div class="course-infobox-content">
                 <p>{{course.summary}}</p>
               </div>
+              <div class="pull-right course-infobox-follow">
+                <span class="course-infobox-followers">{{course.collectionNum}}</span>
+                <span>人收藏</span>
+                <i class="fa fa-star" data-next="/login?next=%2Fcourses%2F1" @click="onClickCollection(course.id)" v-if="isCollection"></i>
+                <i class="fa fa-star-o" data-next="/login?next=%2Fcourses%2F1" @click="onClickCollection(course.id)" v-else></i>
+              </div>
             </div>
           </div>
 
@@ -104,7 +110,7 @@
                   </div>
                 </div>
                 <!-- 小节列表 sectionList -->
-                <div class="lab-item " v-for="(section,sectionIndex) in chapter.sectionList" :key="section.id">
+                <div class="lab-item" :style="selectedSection == section.id ? 'background: #434343' : ''" v-for="(section,sectionIndex) in chapter.sectionList" :key="section.id">
                   <div class="lab-item-status">
                     <img src="../../../public/img/lab-not-ok.png">
                   </div>
@@ -112,7 +118,7 @@
                   <div class="lab-item-title" data-toggle="tooltip" data-placement="bottom" :title="section.title">{{section.title}}</div>
                   <div class="pull-right lab-item-ctrl">
                     <a class="btn btn-default" href="javascript:void(0);" @click="onClickDownloadVideo(section.fileId)">下载视频</a>
-                    <a class="btn btn-primary" href="javascript:void(0);" @click="onClickPlayVideo(section.video)">点击播放</a>
+                    <a class="btn btn-primary" href="javascript:void(0);" @click="onClickPlayVideo(section.id,section.video)">点击播放</a>
                   </div>
                 </div>
            </div>
@@ -741,6 +747,8 @@
     name: "CourseDetail",
     data() {
       return {
+        //当前选择的章节
+        selectedSection: 1,
         course: {},
         teacher:{},
         chapterList:[],
@@ -759,6 +767,7 @@
       };
     },
     created() {
+        //1、获取课程详情
         let courseId = this.$route.params.id;
         this.getCourseDetail(courseId);
     },
@@ -768,13 +777,23 @@
        * 点击收藏课程
        */
       onClickCollection(courseId){
-        if(this.isCollection){
-          this.$message.success('取消收藏');
-
-        }else {
-          this.$message.success('收藏成功');
-        }
-        this.isCollection = !this.isCollection;
+        this.$axios.put(this.$requestBaseUrl.core + '/courses/collectionOrCancel/'+ courseId)
+        .then(resp => {
+          if(resp.data.success){
+            if(this.isCollection){
+              this.$message.success('取消收藏');
+              //收藏数减一
+              this.course.collectionNum --;
+            }else {
+              this.$message.success('收藏成功');
+              //收藏数加一
+              this.course.collectionNum ++;
+            }
+            this.isCollection = !this.isCollection;
+          }else {
+            this.$message.warning('操作失败!')
+          }
+        }).catch(error=>this.$message.error('收藏/取消收藏失败，服务器异常'));
 
       },
 
@@ -797,6 +816,18 @@
                     //章节列表
                     this.chapterList = courseDetail.chapterList;
 
+                    //2、若localStorage有记录，则播放之前视频
+                    let sectionId = localStorage.getItem('course-' + courseId);
+                    if(sectionId){
+                      //找出对应章节的视频Url
+                      this.chapterList.forEach(chapter=>{
+                        if(chapter.sectionList) {
+                          chapter.sectionList.forEach(section => {if(sectionId ==section.id) this.onClickPlayVideo(sectionId,section.video)});
+                        }
+                      })
+
+                    }
+
                   }else {
                     this.$message.warning('获取课程详情失败，请刷新看看');
                   }
@@ -807,7 +838,14 @@
        * 点击播放视频按钮触发
        * @param videoUrl
        */
-      onClickPlayVideo(videoUrl){
+      onClickPlayVideo(sectionId,videoUrl){
+
+        //当前选择的小节
+        this.selectedSection = sectionId;
+        //记录当前播放到localStorage
+        let courseId = this.$route.params.id;
+        localStorage.setItem('course-' + courseId, sectionId);
+
         //显示视频播放器
         this.isHideVideo = false;
         //设置对应播放地址
