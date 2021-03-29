@@ -535,7 +535,7 @@
                           this.courseList = respData.content;
                           //拼接图片完整url
                           this.courseList.forEach(course=>{
-                              course.imageUrl = this.$requestBaseUrl.core + course.image;
+                              course.imageUrl = this.$requestBaseUrl.file + course.image;
                           });
                           this.pageCount = respData.pageCount;
                           //设置第一页样式active

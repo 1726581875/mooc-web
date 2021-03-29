@@ -11,7 +11,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="/">
-                        <img src="img/logo_03.png">
+                       <!-- <img src="img/logo_03.png">-->
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="header-navbar-collapse">
@@ -27,20 +27,19 @@
                                 <li><a class="" href="developer/index.html">开发者</a></li>
                             </ul>
                         </li>
-                        <li class="">
-                            <a href="paths/index.html">路径</a>
-                        </li>
+<!--                        <li class="">-->
+<!--                            <a href="paths/index.html">路径</a>-->
+<!--                        </li>-->
                         <li class="">
                             <a href="questions/index.html">讨论区</a>
                         </li>
-                        <li class=" bootcamp new-nav logo-1111">
+<!--                        <li class=" bootcamp new-nav logo-1111">
                             <a href="bootcamp/index.html">训练营</a>
-
                         </li>
                         <li class=" new-nav logo-1111">
                             <a href="vip/index.html">会员</a>
 
-                        </li>
+                        </li>-->
 
                     </ul>
 
@@ -129,7 +128,7 @@
                 </div>
             </div>
             <div class="text-center copyright">
-                <span>Copyright @2013-2016 实验楼在线教育</span>
+                <span>Copyright @2013-2016 慕课教育教育</span>
                 <span class="ver-line"> | </span>
                 <a href="http://www.bootstrapmb.com/" target="_blank">蜀ICP备13019762号</a>
 

@@ -31,6 +31,11 @@ const routes = [
         meta: {title: '课程详情'}
       },
       {
+        path: '/comment',
+        component: () => import('../views/courses/comment/Comment'),
+        meta: {title: '评论模块'}
+      },
+      {
         path: '/questions',
         component: () => import('../views/question/Question'),
         meta: {title: '问答模块'}

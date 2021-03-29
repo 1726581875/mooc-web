@@ -88,11 +88,11 @@
               <li role="presentation">
                 <a href="#comments" class="stat-event" aria-controls="comments" role="tab" data-stat="course_comment" data-toggle="tab">课程评论(1194)</a>
               </li>
-              <li role="presentation">
+<!--              <li role="presentation">
                 <a href="#reports" class="stat-event" data-stat="course_report" aria-controls="reports" role="tab" data-toggle="tab">实验报告(3417)</a>
-              </li>
+              </li>-->
               <li role="presentation">
-                <a href="#questions" class="stat-event" data-stat="course_question" aria-controls="questions" role="tab" data-toggle="tab">实验问答(1108)</a>
+                <a href="#questions" class="stat-event" data-stat="course_question" aria-controls="questions" role="tab" data-toggle="tab">课程问答(1108)</a>
               </li>
             </ul>
             <div class="tab-content">
@@ -809,7 +809,7 @@
                     let courseDetail = resp.data.data;
                     this.course = courseDetail;
                     //课程封面全路径
-                    this.course.imageUrl = this.$requestBaseUrl.core + courseDetail.image;
+                    this.course.imageUrl = this.$requestBaseUrl.file + courseDetail.image;
                     //课程的教师
                     this.teacher = courseDetail.teacher;
                     this.teacher.imageUrl = this.$requestBaseUrl.core + this.teacher.image;
