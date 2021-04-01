@@ -104,7 +104,7 @@
       return {
         // 评论消息
         commentList: [
-          {
+/*          {
             id: 1,
             img: require('/image/default.png'),
             master: '章鱼哥',
@@ -124,7 +124,7 @@
               }
             ],
             replyList:[]
-          }
+          }*/
         ],
         reply: {
           articleId: '',
@@ -138,7 +138,7 @@
         // 页数
         total: 1,
         // 获取评论url
-        url: '/comment/comments?articleId=' + this.$route.params.id
+        url: this.$requestBaseUrl.core + '/comment/list?courseId=1'
       }
     },
     components: {
@@ -240,12 +240,12 @@
       },
       // 封装点击上、下、跳页部分代码
       getArticle (url) {
-        this.axios.get(url, { withCredentials: true })
+        this.$axios.get(url, { withCredentials: true })
           .then(res => {
             if (res.data.success) {
-              if (res.data.data.commentList.length !== 0) {
+              if (res.data.data.content.length !== 0) {
                 this.commentList = []
-                res.data.data.commentList.forEach(item => {
+                res.data.data.content.forEach(item => {
                   this.commentList.push(item)
                 })
               } else {
@@ -307,7 +307,8 @@
       // 初始化评论基本信息
       this.reply.articleId = this.$route.params.id
       this.reply.userId = window.sessionStorage.getItem('userId')*/
-      console.log('dddddddddddddddddddddd')
+
+      this.getArticle(this.url);
     }
   }
 </script>
