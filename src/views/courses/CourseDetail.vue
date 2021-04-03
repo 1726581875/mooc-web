@@ -5,13 +5,6 @@
       <!-- 面包屑 -->
       <ol class="breadcrumb">
         <li><a href="/courses">全部课程</a></li>
-
-        <li>
-
-          <a href="/courses/?tag=Linux">所属分类(待对接)</a>
-
-        </li>
-
         <li class="active">
           <a href="/courses/1">
             {{course.name}}
@@ -158,8 +151,10 @@
                         <ul>
                           <li class="clearfix" v-for="(item,index) in commentList" :key="item.commentId">
                             <div class="msg">
+                              <a href="javascript:void(0);" @click="toUserDetail(item.userId)">
                               <img :src="requestBaseUrl + item.userImage" alt/>
                               <span class="name">{{item.userName}}</span>
+                              </a>
                               <span class="time">{{item.createTime | format}}</span>
                             </div>
                             <div class="handle">
@@ -318,7 +313,7 @@
               <h4 class="sidebox-title">课程教师</h4>
             </div>
             <div class="sidebox-body mooc-content">
-              <a href="/user/20406" target="_blank">
+              <a :href="'/users/' + teacher.id" target="_blank">
                 <img :src="teacher.imageUrl">
               </a>
               <div class="mooc-info">
@@ -328,7 +323,7 @@
               </div>
               <div class="mooc-extra-info">
                 <div class="word long-paragraph">
-                  资深程序员，5年Linux运维、企业级开发经验及数据库实战和教学经验。
+                  {{teacher.motto ? teacher.motto : '该教师什么也没写..'}}
                 </div>
               </div>
             </div>
@@ -340,19 +335,17 @@
 
 
 
-          <div class="side-image">
+<!--          <div class="side-image">
             <a href="/vip" target="_blank">
               <img src="../../../public/img/banner-vip.png">
             </a>
-          </div>
-
-
+          </div>-->
 
 
 
           <div class="sidebox adv-course">
             <div class="sidebox-header">
-              <h4 class="sidebox-title">进阶课程</h4>
+              <h4 class="sidebox-title">推荐课程</h4>
             </div>
             <div class="sideobx-body course-content">
 
@@ -942,7 +935,7 @@
                     this.course.imageUrl = this.$requestBaseUrl.file + courseDetail.image;
                     //课程的教师
                     this.teacher = courseDetail.teacher;
-                    this.teacher.imageUrl = this.$requestBaseUrl.core + this.teacher.image;
+                    this.teacher.imageUrl = this.$requestBaseUrl.core + this.teacher.userImage;
                     //章节列表
                     this.chapterList = courseDetail.chapterList;
 
@@ -1136,7 +1129,12 @@
             console.log(err)
             this.$message.error('加载评论失败！')
           })
+      },
+      toUserDetail(userId){
+        this.$router.push('/users/' + userId)
       }
+
+
     },
     computed: {
       // 计算回复框还能输入多少个字
@@ -1163,7 +1161,7 @@
     text-decoration: none;
   }
   .active {
-    color: #409eff !important;
+   // color: #409eff !important;
   }
   .comment {
     margin-top: 10px;

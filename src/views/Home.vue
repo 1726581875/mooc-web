@@ -17,15 +17,9 @@
                 <div class="collapse navbar-collapse" id="header-navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="dropdown ">
-                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" @click="toAllCourse">
                                 课程
-                                <span class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="" href="courses/index.html" >全部课程</a></li>
-                                <li><a class="" href="courses/index.html?status=preview" >即将上线</a></li>
-                                <li><a class="" href="developer/index.html">开发者</a></li>
-                            </ul>
                         </li>
 <!--                        <li class="">-->
 <!--                            <a href="paths/index.html">路径</a>-->
@@ -187,7 +181,14 @@
                     this.$message.error('退出操作发生异常');
                 });
 
+            },
+            /**
+             * 前往课程首页
+             */
+            toAllCourse(){
+                this.$router.push('/courses');
             }
+
 
         }
     }

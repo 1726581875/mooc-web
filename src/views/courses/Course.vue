@@ -179,7 +179,7 @@
 
                     <div class="sidebox mooc-teacher"  v-if="userIsLogin">
                         <div class="sidebox-header mooc-header">
-                            <h4 class="sidebox-title">课程教师</h4>
+                            <h4 class="sidebox-title">用户信息</h4>
                         </div>
                         <div class="sidebox-body mooc-content">
                             <a :href="'/users/' + user.id" target="_blank">
@@ -192,7 +192,7 @@
                             </div>
                             <div class="mooc-extra-info">
                                 <div class="word long-paragraph">
-                                    资深程序员，5年Linux运维、企业级开发经验及数据库实战和教学经验。
+                                    {{user.motto ? user.motto : '该用户什么也没写..'}}
                                 </div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
                     <div class="sidebox">
 
                         <div class="sidebox-header">
-                            <h4 class="sidebox-title">最热路径</h4>
+                            <h4 class="sidebox-title">最热课程</h4>
                         </div>
                         <div class="sidebox-body course-content side-list-body">
                             <a href="/paths/python"><img style="width:25px;height:25px" src="../../../public/img/1471513769430.png"> Python 研发工程师</a>

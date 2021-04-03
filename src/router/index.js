@@ -39,7 +39,7 @@ const routes = [
       },
 
       {
-        path: '/questions',
+        path: '/question',
         component: () => import('../views/question/Question'),
         meta: {title: '问答模块'}
       },
