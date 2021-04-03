@@ -1,6 +1,5 @@
 <template>
   <div class="comment">
-    <h3>评论</h3>
     <p>
       <textarea
         name

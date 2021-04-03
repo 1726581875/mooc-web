@@ -23,18 +23,21 @@ const routes = [
       {
         path: '/courses/:id',
         component: () => import('../views/courses/CourseDetail'),
-        meta: {title: '课程详情'}
+        meta: {title: '课程详情'},
+        children: [
+          {
+            path: '/comments',
+            component: () => import('../views/courses/comment/Comment'),
+            meta: {title: '评论模块'}
+          }
+        ]
       },
       {
         path: '/users/:id',
         component: () => import('../views/user/UserDetail'),
         meta: {title: '课程详情'}
       },
-      {
-        path: '/comment',
-        component: () => import('../views/courses/comment/Comment'),
-        meta: {title: '评论模块'}
-      },
+
       {
         path: '/questions',
         component: () => import('../views/question/Question'),
