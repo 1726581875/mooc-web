@@ -25,7 +25,7 @@
 <!--                            <a href="paths/index.html">路径</a>-->
 <!--                        </li>-->
                         <li class="">
-                            <a href="questions/index.html">讨论区</a>
+                            <a href="javascript:void(0);" @click="toQuestion">讨论区</a>
                         </li>
 <!--                        <li class=" bootcamp new-nav logo-1111">
                             <a href="bootcamp/index.html">训练营</a>
@@ -187,7 +187,11 @@
              */
             toAllCourse(){
                 this.$router.push('/courses');
-            }
+            },
+
+            toQuestion(){
+                this.$router.push('/question');
+            },
 
 
         }

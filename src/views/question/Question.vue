@@ -38,11 +38,11 @@
 
 
                 <div class="question-sort">
-                  <a class="active" href="#newest" >最新</a></li>
+                  <a class="active" href="#newest" >最新</a>
                   /
-                  <a  href="#hot" >最热</a></li>
+                    <a  href="#hot" >最热</a>
                   /
-                  <a  href="#unanswered" >未回复</a></li>
+                   <a  href="#unanswered" >未回复</a>
                 </div>
               </ul>
               <div class="tab-content">
@@ -50,1134 +50,998 @@
 
                   <ul class="row question-items">
 
-
-                    <li class="question-item">
+                    <!-- 评论 List-->
+                    <li class="question-item" v-for="comment in commentList" :key="comment.commentId">
                       <div class="col-md-10">
                         <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="../user/13/study.html" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravataradmin.png?imageView2/1/w/100/h/100">
+                          <div class="user-avatar">
+                            <a class="avatar" href="javascript:void(0);"  @click="toUserDetail(comment.userId)">
+                              <img :src="comment.userImage">
                             </a>
-
                           </div>
-
                         </div>
                         <div class="col-sm-10">
                           <h4>
-
-                            <img src="../../../public/img/topQuestion.png">
-
-                            <a class="question-item-title" href="show.html" target="_blank"> 实验楼百楼俱乐部成立，欢迎100楼的你加入！</a>
-
+                            <a class="question-item-title" href="show.html" target="_blank">   {{comment.commentContent}}</a>
                           </h4>
                           <div class="question-item-summary">
 
-
-
-
-
                             <div class="user-username ">
-                              <a class="avatar" href="../user/13/study.html" target="_blank">
-
-                                shiyanlouadmin
-
-
+                              <a class="avatar" href="javascript:void(0);"  @click="toUserDetail(comment.userId)">
+                                {{comment.userName}}
                               </a>
-                              <span class="user-level">L14</span>
                             </div>
 
-
-                            <span class="question-item-date">3小时前</span>
-
-                            最后回复 <span class="question-item-date">
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/256544" target="_blank">
-
-                芃逆明
-
-
-        </a>
-        <span class="user-level">L38</span>
-    </div>
- </span>
-
-
-
+                            <span class="question-item-date">{{comment.createTime}}</span>评论了课程 <span class="question-item-date">
+                            <div class="user-username ">
+                          <a class="username" href="javascript:void(0);"  @click="toCourseDetail(comment.courseId)">
+                            {{comment.courseName}}
+                          </a>
+                    </div>
+                  </span>
 
                           </div>
                         </div>
                       </div>
                       <div class="col-md-2 question-item-rank">
                         <div class="question-item-answered">
-                          <div>89</div>
+                          <div>{{comment.replyNum}}</div>
                           <div>回复</div>
                         </div>
                         <div class="question-item-views">
-                          <div>2409</div>
-                          <div>查看</div>
+                          <div>{{comment.starNum}}</div>
+                          <div>点赞</div>
                         </div>
                       </div>
                     </li>
 
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-                          <div class="user-avatar ">
-                            <a class="avatar" href="../user/13/study.html" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarc51ce410c124a10e0db5e4b97fc2af39.png?v=1439957390221&amp;imageView2/1/w/200/h/200">
-                            </a>
-                            <a class="member-icon" href="/vip" target="_blank">
-                              <img src="../../../public/img/vip-icon.png">
-                        </a>
-                          </div>
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
-                            <!--<img src="../../../public/img/topQuestion.png">-->
-                            <a class="question-item-title" href="show.html" target="_blank"> 实验楼会员服务FAQ</a>
-                          </h4>
-                          <div class="question-item-summary">
+                    <!--
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
 
-                            <div class="user-username ">
-                              <a class="avatar" href="../user/13/study.html" target="_blank">
 
-                                石头山
 
 
-                              </a>
-                              <span class="user-level">L195</span>
-                            </div>
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="../user/13/study.html" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarNTY0MzE5MjcwNTg4.png?v=1472709990977&amp;imageView2/1/w/200/h/200">
+                                                </a>
 
-                            <span class="question-item-date">2天前</span>最后回复 <span class="question-item-date">
-                            <div class="user-username ">
-                          <a class="username" href="/user/1" target="_blank">
+                                                <a class="member-icon" href="/vip" target="_blank">
 
-                shiyanlouadmin
+                                                  <img src="
+                                ../../../public/img/vip-icon.png
+                              ">
 
+                                                </a>
 
-        </a>
-        <span class="user-level">L14</span>
-    </div>
- </span>
+                                              </div>
 
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
 
+                                                <a class="question-item-title" href="show.html" target="_blank"> &#34;模型（一）&#34; 实验报告</a>
 
+                                              </h4>
+                                              <div class="question-item-summary">
 
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="question-item-answered">
-                          <div>112</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>6359</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
 
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
 
 
 
+                                                <div class="user-username ">
+                                                  <a class="avatar" href="../user/13/study.html" target="_blank">
 
-                          <div class="user-avatar ">
-                            <a class="avatar" href="../user/13/study.html" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarNTY0MzE5MjcwNTg4.png?v=1472709990977&amp;imageView2/1/w/200/h/200">
-                            </a>
+                                                    Unchained_Coder
 
-                            <a class="member-icon" href="/vip" target="_blank">
 
-                              <img src="
-            ../../../public/img/vip-icon.png
-          ">
+                                                  </a>
+                                                  <span class="user-level">L52</span>
+                                                </div>
 
-                            </a>
 
-                          </div>
+                                                <span class="question-item-date">5分钟前</span>
 
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
 
-                            <a class="question-item-title" href="show.html" target="_blank"> &#34;模型（一）&#34; 实验报告</a>
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/30" target="_blank">Python Django Web框架</a>
+                                </span>
 
-                          </h4>
-                          <div class="question-item-summary">
 
 
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>0</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
 
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
 
 
-                            <div class="user-username ">
-                              <a class="avatar" href="../user/13/study.html" target="_blank">
 
-                                Unchained_Coder
 
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="../user/13/study.html" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarJV27JZZLJ9T2.jpg?imageView2/1/w/200/h/200">
+                                                </a>
 
-                              </a>
-                              <span class="user-level">L52</span>
-                            </div>
+                                              </div>
 
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
 
-                            <span class="question-item-date">5分钟前</span>
+                                                <a class="question-item-title" href="/questions/8706" target="_blank"> &#34;用户及文件权限管理&#34; 实验报告</a>
 
+                                              </h4>
+                                              <div class="question-item-summary">
 
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/30" target="_blank">Python Django Web框架</a>
-            </span>
 
 
 
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>0</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
 
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
+                                                <div class="user-username ">
+                                                  <a class="avatar" href="../user/13/study.html" target="_blank">
 
+                                                    ww10075
 
 
+                                                  </a>
+                                                  <span class="user-level">L1</span>
+                                                </div>
 
-                          <div class="user-avatar ">
-                            <a class="avatar" href="../user/13/study.html" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarJV27JZZLJ9T2.jpg?imageView2/1/w/200/h/200">
-                            </a>
 
-                          </div>
+                                                <span class="question-item-date">5分钟前</span>
 
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
 
-                            <a class="question-item-title" href="/questions/8706" target="_blank"> &#34;用户及文件权限管理&#34; 实验报告</a>
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/1" target="_blank">Linux 基础入门（新版）</a>
+                                </span>
 
-                          </h4>
-                          <div class="question-item-summary">
 
 
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>1</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
 
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
 
 
-                            <div class="user-username ">
-                              <a class="avatar" href="../user/13/study.html" target="_blank">
 
-                                ww10075
 
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/261949" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarPCGEKEPZUUFS.jpg?imageView2/1/w/200/h/200">
+                                                </a>
 
-                              </a>
-                              <span class="user-level">L1</span>
-                            </div>
+                                              </div>
 
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
 
-                            <span class="question-item-date">5分钟前</span>
+                                                <a class="question-item-title" href="/questions/8704" target="_blank"> &#34;高级功能入门&#34; 实验报告</a>
 
+                                              </h4>
+                                              <div class="question-item-summary">
 
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/1" target="_blank">Linux 基础入门（新版）</a>
-            </span>
 
 
 
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>1</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
 
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/261949" target="_blank">
 
+                                                    样与星飞
 
 
+                                                  </a>
+                                                  <span class="user-level">L5</span>
+                                                </div>
 
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/261949" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarPCGEKEPZUUFS.jpg?imageView2/1/w/200/h/200">
-                            </a>
 
-                          </div>
+                                                <span class="question-item-date">7分钟前</span>
 
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
 
-                            <a class="question-item-title" href="/questions/8704" target="_blank"> &#34;高级功能入门&#34; 实验报告</a>
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/2" target="_blank">Vim编辑器</a>
+                                </span>
 
-                          </h4>
-                          <div class="question-item-summary">
 
 
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>0</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
 
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
 
 
-                            <div class="user-username ">
-                              <a class="username" href="/user/261949" target="_blank">
 
-                                样与星飞
 
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/206590" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarCVAFAFTXQFBJ.jpg?imageView2/1/w/200/h/200">
+                                                </a>
 
-                              </a>
-                              <span class="user-level">L5</span>
-                            </div>
+                                                <a class="member-icon" href="/vip" target="_blank">
 
+                                                  <img src="
+                                ../../../public/img/vip-icon.png
+                              ">
 
-                            <span class="question-item-date">7分钟前</span>
+                                                </a>
 
+                                              </div>
 
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/2" target="_blank">Vim编辑器</a>
-            </span>
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
 
+                                                <a class="question-item-title" href="/questions/8703" target="_blank"> fatal: could not create work tree dir &#39;project&#39;.: Permission denied</a>
 
+                                              </h4>
+                                              <div class="question-item-summary">
 
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>0</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
 
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
 
 
 
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/206590" target="_blank">
 
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/206590" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarCVAFAFTXQFBJ.jpg?imageView2/1/w/200/h/200">
-                            </a>
+                                                    我的心灵之神
 
-                            <a class="member-icon" href="/vip" target="_blank">
 
-                              <img src="
-            ../../../public/img/vip-icon.png
-          ">
+                                                  </a>
+                                                  <span class="user-level">L11</span>
+                                                </div>
 
-                            </a>
 
-                          </div>
+                                                <span class="question-item-date">22分钟前</span>
 
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
 
-                            <a class="question-item-title" href="/questions/8703" target="_blank"> fatal: could not create work tree dir &#39;project&#39;.: Permission denied</a>
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/616" target="_blank">Linux系统安装git服务器</a>
+                                </span>
 
-                          </h4>
-                          <div class="question-item-summary">
 
 
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>3</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
 
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
 
 
-                            <div class="user-username ">
-                              <a class="username" href="/user/206590" target="_blank">
 
-                                我的心灵之神
 
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/327377" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatar9QJ2K4C7RVGZ.jpg?imageView2/1/w/200/h/200">
+                                                </a>
 
-                              </a>
-                              <span class="user-level">L11</span>
-                            </div>
+                                              </div>
 
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
 
-                            <span class="question-item-date">22分钟前</span>
+                                                <a class="question-item-title" href="/questions/6756" target="_blank"> 无法创建目录权限不够</a>
 
+                                              </h4>
+                                              <div class="question-item-summary">
 
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/616" target="_blank">Linux系统安装git服务器</a>
-            </span>
 
 
 
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>3</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
 
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/327377" target="_blank">
 
+                                                    暗号
 
 
+                                                  </a>
+                                                  <span class="user-level">L2</span>
+                                                </div>
 
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/327377" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatar9QJ2K4C7RVGZ.jpg?imageView2/1/w/200/h/200">
-                            </a>
 
-                          </div>
+                                                <span class="question-item-date">34分钟前</span>
 
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
+                                                最后回复 <span class="question-item-date">
 
-                            <a class="question-item-title" href="/questions/6756" target="_blank"> 无法创建目录权限不够</a>
 
-                          </h4>
-                          <div class="question-item-summary">
 
+                        <div class="user-username ">
+                            <a class="username" href="/user/50213" target="_blank">
 
+                                    vector7
 
-
-
-                            <div class="user-username ">
-                              <a class="username" href="/user/327377" target="_blank">
-
-                                暗号
-
-
-                              </a>
-                              <span class="user-level">L2</span>
-                            </div>
-
-
-                            <span class="question-item-date">34分钟前</span>
-
-                            最后回复 <span class="question-item-date">
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/50213" target="_blank">
-
-                vector7
-
-
-        </a>
-        <span class="user-level">L14</span>
-    </div>
- </span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/68" target="_blank">Linux命令实例练习</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="question-item-answered">
-                          <div>2</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>45</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/189278" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarWEDEXPRVZAPK.jpg?imageView2/1/w/200/h/200">
-                            </a>
-
-                          </div>
-
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/8692" target="_blank"> 模块后缀名错误</a>
-
-                          </h4>
-                          <div class="question-item-summary">
-
-
-
-
-
-                            <div class="user-username ">
-                              <a class="username" href="/user/189278" target="_blank">
-
-                                摩涅莫西涅
-
-
-                              </a>
-                              <span class="user-level">L2</span>
-                            </div>
-
-
-                            <span class="question-item-date">46分钟前</span>
-
-                            最后回复 <span class="question-item-date">
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/189278" target="_blank">
-
-                摩涅莫西涅
-
-
-        </a>
-        <span class="user-level">L2</span>
-    </div>
- </span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/713" target="_blank">跟我一起来玩转Makefile</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="question-item-answered">
-                          <div>2</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>13</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/348062" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatar348062.png?v=1483703222865&amp;imageView2/1/w/200/h/200">
-                            </a>
-
-                          </div>
-
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/8702" target="_blank"> &#34;选择程序设计&#34; 实验报告</a>
-
-                          </h4>
-                          <div class="question-item-summary">
-
-
-
-
-
-                            <div class="user-username ">
-                              <a class="username" href="/user/348062" target="_blank">
-
-                                生无可恋的咸鱼
-
-
-                              </a>
-                              <span class="user-level">L7</span>
-                            </div>
-
-
-                            <span class="question-item-date">47分钟前</span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/57" target="_blank">C语言入门教程</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>1</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/179072" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatar179072.png?v=1483782678305&amp;imageView2/1/w/200/h/200">
-                            </a>
-
-                          </div>
-
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/8701" target="_blank"> &#34;Hello，ShiYanLou!&#34; 实验报告</a>
-
-                          </h4>
-                          <div class="question-item-summary">
-
-
-
-
-
-                            <div class="user-username ">
-                              <a class="username" href="/user/179072" target="_blank">
-
-                                实验流
-
-
-                              </a>
-                              <span class="user-level">L1</span>
-                            </div>
-
-
-                            <span class="question-item-date">47分钟前</span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/63" target="_blank">新手指南之玩转实验楼</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>4</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/326464" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatar839MP62DELVT.jpg?imageView2/1/w/200/h/200">
-                            </a>
-
-                          </div>
-
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/8700" target="_blank"> &#34;视图和URL配置&#34; 实验报告</a>
-
-                          </h4>
-                          <div class="question-item-summary">
-
-
-
-
-
-                            <div class="user-username ">
-                              <a class="username" href="/user/326464" target="_blank">
-
-                                dako
-
-
-                              </a>
-                              <span class="user-level">L8</span>
-                            </div>
-
-
-                            <span class="question-item-date">1小时前</span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/30" target="_blank">Python Django Web框架</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>1</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/350016" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatar76CZNW2H5XGL.jpg?imageView2/1/w/200/h/200">
-                            </a>
-
-                          </div>
-
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/8699" target="_blank"> Xfce终端，怎样检查代码错误？</a>
-
-                          </h4>
-                          <div class="question-item-summary">
-
-
-
-
-
-                            <div class="user-username ">
-                              <a class="username" href="/user/350016" target="_blank">
-
-                                LOU1263142231
-
-
-                              </a>
-                              <span class="user-level">L5</span>
-                            </div>
-
-
-                            <span class="question-item-date">1小时前</span>
-
-                            最后回复 <span class="question-item-date">
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/184444" target="_blank">
-
-                狂草
-
-
-        </a>
-        <span class="user-level">L11</span>
-    </div>
- </span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/1" target="_blank">Linux 基础入门（新版）</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="question-item-answered">
-                          <div>1</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>8</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/332679" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatar332679.png?v=1483454464246&amp;imageView2/1/w/200/h/200">
-                            </a>
-
-                          </div>
-
-                        </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/8698" target="_blank"> &#34;进阶篇 - SQL 语句语法详解&#34; 实验报告</a>
-
-                          </h4>
-                          <div class="question-item-summary">
-
-
-
-
-
-                            <div class="user-username ">
-                              <a class="username" href="/user/332679" target="_blank">
-
-                                凌岸_ing
-
-
-                              </a>
-                              <span class="user-level">L25</span>
-                            </div>
-
-
-                            <span class="question-item-date">1小时前</span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/9" target="_blank">MySQL 基础课程</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="">
-                          <div>0</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>1</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
-
-
-
-
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/256544" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarVY4JVKBCU7YX.jpg?imageView2/1/w/200/h/200">
-                            </a>
-
-                            <a class="member-icon" href="/vip" target="_blank">
-
-                              <img src="
-            ../../../public/img/vip-icon.png
-          ">
 
                             </a>
-
-                          </div>
-
+                            <span class="user-level">L14</span>
                         </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/8697" target="_blank"> python数据库配置问题，求各路大神指导！</a>
-
-                          </h4>
-                          <div class="question-item-summary">
+                     </span>
 
 
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/68" target="_blank">Linux命令实例练习</a>
+                                </span>
 
 
 
-                            <div class="user-username ">
-                              <a class="username" href="/user/256544" target="_blank">
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="question-item-answered">
+                                              <div>2</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>45</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
 
-                                芃逆明
-
-
-                              </a>
-                              <span class="user-level">L38</span>
-                            </div>
-
-
-                            <span class="question-item-date">1小时前</span>
-
-                            最后回复 <span class="question-item-date">
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/256544" target="_blank">
-
-                芃逆明
-
-
-        </a>
-        <span class="user-level">L38</span>
-    </div>
- </span>
-
-
-                            <span class="question-item-course">
-                来自
-                <a href="/questions/courses/30" target="_blank">Python Django Web框架</a>
-            </span>
-
-
-
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="question-item-answered">
-                          <div>1</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>6</div>
-                          <div>查看</div>
-                        </div>
-                      </div>
-                    </li>
-
-                    <li class="question-item">
-                      <div class="col-md-10">
-                        <div class="col-sm-2 question-item-author">
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
 
 
 
 
-                          <div class="user-avatar ">
-                            <a class="avatar" href="/user/147396" target="_blank">
-                              <img src="https://dn-simplecloud.shiyanlou.com/gravatarG8Q6KS3J8T7L.jpg?imageView2/1/w/200/h/200">
-                            </a>
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/189278" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarWEDEXPRVZAPK.jpg?imageView2/1/w/200/h/200">
+                                                </a>
 
-                            <a class="member-icon" href="/vip" target="_blank">
+                                              </div>
 
-                              <img src="
-            ../../../public/img/vip-icon.png
-          ">
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/8692" target="_blank"> 模块后缀名错误</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
+
+
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/189278" target="_blank">
+
+                                                    摩涅莫西涅
+
+
+                                                  </a>
+                                                  <span class="user-level">L2</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">46分钟前</span>
+
+                                                最后回复 <span class="question-item-date">
+
+
+
+                        <div class="user-username ">
+                            <a class="username" href="/user/189278" target="_blank">
+
+                                    摩涅莫西涅
+
 
                             </a>
-
-                          </div>
-
+                            <span class="user-level">L2</span>
                         </div>
-                        <div class="col-sm-10">
-                          <h4>
-
-                            <a class="question-item-title" href="/questions/2522" target="_blank"> 什么时候会出Python自动化测试的课程啊，包括appium</a>
-
-                          </h4>
-                          <div class="question-item-summary">
+                     </span>
 
 
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/713" target="_blank">跟我一起来玩转Makefile</a>
+                                </span>
 
 
 
-                            <div class="user-username ">
-                              <a class="username" href="/user/147396" target="_blank">
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="question-item-answered">
+                                              <div>2</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>13</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
 
-                                不锈
-
-
-                              </a>
-                              <span class="user-level">L8</span>
-                            </div>
-
-
-                            <span class="question-item-date">1小时前</span>
-
-                            最后回复 <span class="question-item-date">
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/272204" target="_blank">
-
-                taichu
-
-
-        </a>
-        <span class="user-level">L2</span>
-    </div>
- </span>
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
 
 
 
-                            <span class="question-item-tags">
 
-                <a class="tagStyle2" href="/questions/?tag=Python" target="_blank">Python</a>
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/348062" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatar348062.png?v=1483703222865&amp;imageView2/1/w/200/h/200">
+                                                </a>
 
-            </span>
+                                              </div>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/8702" target="_blank"> &#34;选择程序设计&#34; 实验报告</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
 
 
-                          </div>
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/348062" target="_blank">
+
+                                                    生无可恋的咸鱼
+
+
+                                                  </a>
+                                                  <span class="user-level">L7</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">47分钟前</span>
+
+
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/57" target="_blank">C语言入门教程</a>
+                                </span>
+
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>1</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
+
+
+
+
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/179072" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatar179072.png?v=1483782678305&amp;imageView2/1/w/200/h/200">
+                                                </a>
+
+                                              </div>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/8701" target="_blank"> &#34;Hello，ShiYanLou!&#34; 实验报告</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
+
+
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/179072" target="_blank">
+
+                                                    实验流
+
+
+                                                  </a>
+                                                  <span class="user-level">L1</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">47分钟前</span>
+
+
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/63" target="_blank">新手指南之玩转实验楼</a>
+                                </span>
+
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>4</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
+
+
+
+
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/326464" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatar839MP62DELVT.jpg?imageView2/1/w/200/h/200">
+                                                </a>
+
+                                              </div>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/8700" target="_blank"> &#34;视图和URL配置&#34; 实验报告</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
+
+
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/326464" target="_blank">
+
+                                                    dako
+
+
+                                                  </a>
+                                                  <span class="user-level">L8</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">1小时前</span>
+
+
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/30" target="_blank">Python Django Web框架</a>
+                                </span>
+
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>1</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
+
+
+
+
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/350016" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatar76CZNW2H5XGL.jpg?imageView2/1/w/200/h/200">
+                                                </a>
+
+                                              </div>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/8699" target="_blank"> Xfce终端，怎样检查代码错误？</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
+
+
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/350016" target="_blank">
+
+                                                    LOU1263142231
+
+
+                                                  </a>
+                                                  <span class="user-level">L5</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">1小时前</span>
+
+                                                最后回复 <span class="question-item-date">
+
+
+
+                        <div class="user-username ">
+                            <a class="username" href="/user/184444" target="_blank">
+
+                                    狂草
+
+
+                            </a>
+                            <span class="user-level">L11</span>
                         </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="question-item-answered">
-                          <div>2</div>
-                          <div>回复</div>
+                     </span>
+
+
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/1" target="_blank">Linux 基础入门（新版）</a>
+                                </span>
+
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="question-item-answered">
+                                              <div>1</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>8</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
+
+
+
+
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/332679" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatar332679.png?v=1483454464246&amp;imageView2/1/w/200/h/200">
+                                                </a>
+
+                                              </div>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/8698" target="_blank"> &#34;进阶篇 - SQL 语句语法详解&#34; 实验报告</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
+
+
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/332679" target="_blank">
+
+                                                    凌岸_ing
+
+
+                                                  </a>
+                                                  <span class="user-level">L25</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">1小时前</span>
+
+
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/9" target="_blank">MySQL 基础课程</a>
+                                </span>
+
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="">
+                                              <div>0</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>1</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
+
+
+
+
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/256544" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarVY4JVKBCU7YX.jpg?imageView2/1/w/200/h/200">
+                                                </a>
+
+                                                <a class="member-icon" href="/vip" target="_blank">
+
+                                                  <img src="
+                                ../../../public/img/vip-icon.png
+                              ">
+
+                                                </a>
+
+                                              </div>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/8697" target="_blank"> python数据库配置问题，求各路大神指导！</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
+
+
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/256544" target="_blank">
+
+                                                    芃逆明
+
+
+                                                  </a>
+                                                  <span class="user-level">L38</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">1小时前</span>
+
+                                                最后回复 <span class="question-item-date">
+
+
+
+                        <div class="user-username ">
+                            <a class="username" href="/user/256544" target="_blank">
+
+                                    芃逆明
+
+
+                            </a>
+                            <span class="user-level">L38</span>
                         </div>
-                        <div class="question-item-views">
-                          <div>132</div>
-                          <div>查看</div>
+                     </span>
+
+
+                                                <span class="question-item-course">
+                                    来自
+                                    <a href="/questions/courses/30" target="_blank">Python Django Web框架</a>
+                                </span>
+
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="question-item-answered">
+                                              <div>1</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>6</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>
+
+                                        <li class="question-item">
+                                          <div class="col-md-10">
+                                            <div class="col-sm-2 question-item-author">
+
+
+
+
+                                              <div class="user-avatar ">
+                                                <a class="avatar" href="/user/147396" target="_blank">
+                                                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarG8Q6KS3J8T7L.jpg?imageView2/1/w/200/h/200">
+                                                </a>
+
+                                                <a class="member-icon" href="/vip" target="_blank">
+
+                                                  <img src="
+                                ../../../public/img/vip-icon.png
+                              ">
+
+                                                </a>
+
+                                              </div>
+
+                                            </div>
+                                            <div class="col-sm-10">
+                                              <h4>
+
+                                                <a class="question-item-title" href="/questions/2522" target="_blank"> 什么时候会出Python自动化测试的课程啊，包括appium</a>
+
+                                              </h4>
+                                              <div class="question-item-summary">
+
+
+
+
+
+                                                <div class="user-username ">
+                                                  <a class="username" href="/user/147396" target="_blank">
+
+                                                    不锈
+
+
+                                                  </a>
+                                                  <span class="user-level">L8</span>
+                                                </div>
+
+
+                                                <span class="question-item-date">1小时前</span>
+
+                                                最后回复 <span class="question-item-date">
+
+
+
+                        <div class="user-username ">
+                            <a class="username" href="/user/272204" target="_blank">
+
+                                    taichu
+
+
+                            </a>
+                            <span class="user-level">L2</span>
                         </div>
-                      </div>
-                    </li>
+                     </span>
+
+
+
+                                                <span class="question-item-tags">
+
+                                    <a class="tagStyle2" href="/questions/?tag=Python" target="_blank">Python</a>
+
+                                </span>
+
+
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-2 question-item-rank">
+                                            <div class="question-item-answered">
+                                              <div>2</div>
+                                              <div>回复</div>
+                                            </div>
+                                            <div class="question-item-views">
+                                              <div>132</div>
+                                              <div>查看</div>
+                                            </div>
+                                          </div>
+                                        </li>-->
 
                   </ul>
 
 
-
-
+                  <!-- 分页 -->
                   <nav class="pagination-container">
                     <ul class="pagination">
 
-                      <li class="disabled">
-                        <a href="#" aria-label="Previous">
+                      <li>
+                        <a href="javascript:void(0);" aria-label="Previous" @click="prePage">
                           <span aria-hidden="true">上一页</span>
                         </a>
                       </li>
 
-
-
-                      <li class="active">
-                        <a href="/questions/?sort=newest&amp;page=1&amp;area_type=all">1</a>
+                      <li :id="'mooc-index-' + index" class="" v-for="index in pageCount" :key="index" @click="onClickPage(index)">
+                        <a href="javascript:void(0);">{{index}}</a>
                       </li>
-
-
 
                       <li class="">
-                        <a href="/questions/?sort=newest&amp;page=2&amp;area_type=all">2</a>
-                      </li>
-
-
-
-                      <li class="">
-                        <a href="/questions/?sort=newest&amp;page=3&amp;area_type=all">3</a>
-                      </li>
-
-
-
-                      <li class="">
-                        <a href="/questions/?sort=newest&amp;page=4&amp;area_type=all">4</a>
-                      </li>
-
-
-
-                      <li class="">
-                        <a href="/questions/?sort=newest&amp;page=5&amp;area_type=all">5</a>
-                      </li>
-
-
-
-                      <li>
-                        <a href='#'>...</a>
-                      </li>
-
-
-
-                      <li class="">
-                        <a href="/questions/?sort=newest&amp;page=547&amp;area_type=all">547</a>
-                      </li>
-
-
-
-                      <li class="">
-                        <a href="/questions/?sort=newest&amp;page=548&amp;area_type=all">548</a>
-                      </li>
-
-
-
-                      <li class="">
-                        <a aria-label="Next" href="/questions/?sort=newest&amp;page=2&amp;area_type=all">
+                        <a aria-label="Next" href="javascript:void(0);" @click="nextPage">
                           <span aria-hidden="true">下一页</span>
                         </a>
                       </li>
@@ -1197,11 +1061,6 @@
 
 
             <a class="btn side-btn" href="#sign-modal" data-toggle="modal" data-sign="signin">我要发帖</a>
-
-
-
-
-
 
 
             <div class="panel panel-default panel-userinfo">
@@ -1594,7 +1453,85 @@
 
 <script>
     export default {
-        name: "Question"
+      name: "Question",
+      data() {
+        return {
+          commentList:[],
+          queryParam:{
+            tagIdList:[],
+            matchStr:'',
+            pageIndex:1,
+            pageSize:15
+          },
+          pageCount: 1,
+        }
+      },
+      watch:{
+      },
+      created() {
+      this.getCommentList();
+      },
+      methods: {
+        getCommentList(){
+          this.$axios.get(this.$requestBaseUrl.core + '/comment/listAll')
+            .then(resp =>{
+               if(resp.data.success){
+                 this.commentList = resp.data.data.content;
+                 //设置图片全路径
+                 this.commentList.forEach(comment=>comment.userImage = this.$requestBaseUrl.core + comment.userImage);
+                 //设置总页数
+                 this.pageCount = resp.data.data.pageCount;
+                 //设置第一页样式active
+                 if(this.queryParam.pageIndex == 1) {
+                   $("#mooc-index-1").addClass("active");
+                 }
+               }else {
+                 this.$message.warning('获取评论列表失败');
+               }
+
+          }).catch(err=>this.$message.error('获取评论列表失败'));
+        },
+        onClickPage(index){
+          $("#mooc-index-"+index).siblings().removeClass("active");
+          $("#mooc-index-"+index).addClass("active");
+
+          this.queryParam.pageIndex = index;
+          this.listCourse();
+        },
+
+        prePage(){
+          //参数判断
+          let prePageIndex = this.queryParam.pageIndex - 1;
+          if(prePageIndex < 1){
+            return;
+          }
+          //样式改变
+          $("#mooc-index-"+prePageIndex).siblings().removeClass("active");
+          $("#mooc-index-"+prePageIndex).addClass("active");
+          //查询
+          this.queryParam.pageIndex = prePageIndex;
+          this.listCourse();
+        },
+        nextPage(){
+          //参数判断
+          let nextPageIndex = this.queryParam.pageIndex + 1;
+          if(this.pageCount < nextPageIndex){
+            return;
+          }
+          //样式改变
+          $("#mooc-index-"+nextPageIndex).siblings().removeClass("active");
+          $("#mooc-index-"+nextPageIndex).addClass("active");
+          //查询
+          this.queryParam.pageIndex = nextPageIndex;
+          this.listCourse();
+        },
+        toUserDetail(userId){
+          this.$router.push('/users/' + userId)
+        },
+        toCourseDetail(courseId){
+          this.$router.push('/courses/' + courseId)
+        }
+      },
     }
 </script>
 
