@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-sm-10">
                           <h4>
-                            <a class="question-item-title" href="show.html" target="_blank">   {{comment.commentContent}}</a>
+                            <a class="question-item-title" href="javascript:void(0);"  @click="toComemntDetail(comment.commentId)">   {{comment.commentContent}}</a>
                           </h4>
                           <div class="question-item-summary">
 
@@ -1458,10 +1458,9 @@
         return {
           commentList:[],
           queryParam:{
-            tagIdList:[],
             matchStr:'',
             pageIndex:1,
-            pageSize:15
+            pageSize:10
           },
           pageCount: 1,
         }
@@ -1473,8 +1472,9 @@
       },
       methods: {
         getCommentList(){
-          this.$axios.get(this.$requestBaseUrl.core + '/comment/listAll')
-            .then(resp =>{
+          this.$axios.get(this.$requestBaseUrl.core + '/comment/listAll', {
+            params: this.queryParam
+          }).then(resp =>{
                if(resp.data.success){
                  this.commentList = resp.data.data.content;
                  //设置图片全路径
@@ -1496,7 +1496,7 @@
           $("#mooc-index-"+index).addClass("active");
 
           this.queryParam.pageIndex = index;
-          this.listCourse();
+          this.getCommentList();
         },
 
         prePage(){
@@ -1510,7 +1510,7 @@
           $("#mooc-index-"+prePageIndex).addClass("active");
           //查询
           this.queryParam.pageIndex = prePageIndex;
-          this.listCourse();
+          this.getCommentList();
         },
         nextPage(){
           //参数判断
@@ -1523,14 +1523,18 @@
           $("#mooc-index-"+nextPageIndex).addClass("active");
           //查询
           this.queryParam.pageIndex = nextPageIndex;
-          this.listCourse();
+          this.getCommentList();
         },
         toUserDetail(userId){
           this.$router.push('/users/' + userId)
         },
         toCourseDetail(courseId){
-          this.$router.push('/courses/' + courseId)
+          this.$router.push('/courses/' + courseId);
+        },
+        toComemntDetail(commentId){
+          this.$router.push('/question/' + commentId);
         }
+
       },
     }
 </script>

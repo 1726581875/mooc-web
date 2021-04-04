@@ -37,11 +37,15 @@ const routes = [
         component: () => import('../views/user/UserDetail'),
         meta: {title: '课程详情'}
       },
-
       {
         path: '/question',
         component: () => import('../views/question/Question'),
-        meta: {title: '问答模块'}
+        meta: {title: '评论模块'}
+      },
+      {
+        path: '/question/:id',
+        component: () => import('../views/question/QuestionDetail'),
+        meta: {title: '评论详情模块'}
       },
       {
         path: '/login',
