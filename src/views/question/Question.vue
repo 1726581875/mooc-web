@@ -62,7 +62,7 @@
                         </div>
                         <div class="col-sm-10">
                           <h4>
-                            <a class="question-item-title" href="javascript:void(0);"  @click="toComemntDetail(comment.commentId)">   {{comment.commentContent}}</a>
+                            <a class="question-item-title" href="javascript:void(0);"  @click="toCommentDetail(comment.commentId)">   {{comment.commentContent}}</a>
                           </h4>
                           <div class="question-item-summary">
 
@@ -1531,7 +1531,7 @@
         toCourseDetail(courseId){
           this.$router.push('/courses/' + courseId);
         },
-        toComemntDetail(commentId){
+        toCommentDetail(commentId){
           this.$router.push('/question/' + commentId);
         }
 

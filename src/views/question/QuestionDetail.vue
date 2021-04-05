@@ -5,11 +5,11 @@
       <ol class="breadcrumb">
         <li><a href="/questions/">讨论区</a></li>
 
-        <li><a href="/questions/?area_type=course">课程问答</a></li>
+        <li><a href="javascript:void(0);" @click="toCommentList">课程评论</a></li>
 
         <li class="active">
-          <a href="/questions/8641">
-            好心人可以告诉我怎么截屏吗。。。
+          <a href="javascript:void(0)" @click="toCommentDetail(commentDetail.commentId)">
+            {{commentDetail.commentContent}}
           </a>
         </li>
       </ol>
@@ -19,8 +19,8 @@
 
           <div class="content question-detail">
             <div class="question-headline">
-              <span class="question-title"> 好心人可以告诉我怎么截屏吗。。。</span>
-              <span class="question-figure">3 回复</span><span class="question-figure">17 查看</span>
+              <span class="question-title"> {{commentDetail.commentContent}}</span>
+              <span class="question-figure">{{commentDetail.replyNum}} 回复</span><span class="question-figure">{{commentDetail.starNum}} 点赞</span>
             </div>
             <div class="question-author">
 
@@ -29,7 +29,7 @@
 
               <div class="user-avatar ">
                 <a class="avatar" href="/user/347060" target="_blank">
-                  <img src="https://dn-simplecloud.shiyanlou.com/gravatarM7Q8G5B92TNJ.jpg?imageView2/1/w/200/h/200">
+                  <img :src="commentDetail.userImage">
                 </a>
 
               </div>
@@ -41,27 +41,26 @@
               <div class="user-username ">
                 <a class="username" href="/user/347060" target="_blank">
 
-                  到此一游
+                  {{commentDetail.userName}}
 
 
                 </a>
-                <span class="user-level">L4</span>
+                <!--<span class="user-level">L4</span>-->
               </div>
 
-              <span>23小时前</span>
+              <span>{{commentDetail.createTime}}</span>
 
-              <span><a href="/questions/?area_type=course">课程问答</a></span>
+              <span><a href="javascript:void(0);" @click="toCommentList">课程评论</a></span>
 
 
-              <span class="question-from">来自： <a href="/questions/courses/115">熟悉实验环境 </a></span>
+              <span class="question-from">来自： <a href="javascript:void(0);" @click="toCourseDetail(commentDetail.courseId)">{{commentDetail.courseName}} </a></span>
 
 
               <a href="#sign-modal" data-toggle="modal" data-sign="signin" class="btn btn-primary collectBtn">收藏</a>
 
             </div>
             <div class="question-content markdown-body">
-              <p>第一段代码中，步骤三第二行的libb.a应该是libb.o，同步骤二中的一致
-              </p>
+              <p>{{commentDetail.commentContent}}</p>
 
 
 
@@ -79,168 +78,34 @@
               <hr/>
 
 
-              <div class="answer-item">
+              <div class="answer-item" v-for="reply in replyList" :key="reply.replyId">
                 <div class="answer-head">
-
-
-
-
                   <div class="user-avatar ">
-                    <a class="avatar" href="/user/212008" target="_blank">
-                      <img src="https://dn-simplecloud.shiyanlou.com/gravatarNTY0MzE5MjI0Njgz.png?v=1477283063583&amp;imageView2/1/w/200/h/200">
+                    <a class="avatar" href="javascript:void(0)" @click="toUserDetail(reply.userId)">
+                      <img :src="reply.userImage">
                     </a>
-
-                    <a class="member-icon" href="/vip" target="_blank">
-
-                      <img src="
-            https://static.shiyanlou.com/img/vip-icon.png
-          ">
-
-                    </a>
-
                   </div>
 
                 </div>
                 <div class="answer-detail">
-                    <span class="comment-reply">
-
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/212008" target="_blank">
-
-                米斯特_周
-
-
-        </a>
-        <span class="user-level">L234</span>
-    </div>
-
-                    </span>
+           <span class="comment-reply">
+            <div class="user-username ">
+             <a class="username" href="javascript:void(0)" @click="toUserDetail(reply.userId)">{{reply.replyerName}}</a>
+            </div>
+          </span>
+            <span class="comment-parent" v-if="reply.parentId != 0">回复
+              <div class="user-username ">
+             <a class="username" href="javascript:void(0)" @click="toUserDetail(reply.toUserId)" >{{reply.toUserName}}</a>
+             </div>
+          </span>
 
                   <div class="answer-content markdown-body">
-                    <textarea style="display:none;">开始实验后，如图所示：
-
-![图片描述](https://dn-simplecloud.shiyanlou.com/uid/212008/1483688692465.png-wm)</textarea>
+                    {{reply.replyContent}}
+<!--                    <textarea style="display:none;">开始实验后，如图所示：
+                      ![图片描述](https://dn-simplecloud.shiyanlou.com/uid/212008/1483688692465.png-wm)</textarea>-->
                   </div>
-
-
-
                   <div>
-                    <span class="create-time">21小时前</span>
-
-                    <hr/>
-                  </div>
-                </div>
-              </div>
-
-              <div class="answer-item">
-                <div class="answer-head">
-
-
-
-
-                  <div class="user-avatar ">
-                    <a class="avatar" href="/user/347060" target="_blank">
-                      <img src="https://dn-simplecloud.shiyanlou.com/gravatarM7Q8G5B92TNJ.jpg?imageView2/1/w/200/h/200">
-                    </a>
-
-                  </div>
-
-                </div>
-                <div class="answer-detail">
-                    <span class="comment-reply">
-
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/347060" target="_blank">
-
-                到此一游
-
-
-        </a>
-        <span class="user-level">L4</span>
-    </div>
-
-                    </span>
-
-                  <div class="answer-content markdown-body">
-                    <textarea style="display:none;">这个不是发实验报告咩。。。怎么提问的时候发截图啊
-</textarea>
-                  </div>
-
-
-
-                  <div>
-                    <span class="create-time">5小时前</span>
-
-                    <hr/>
-                  </div>
-                </div>
-              </div>
-
-              <div class="answer-item">
-                <div class="answer-head">
-
-
-
-
-                  <div class="user-avatar ">
-                    <a class="avatar" href="/user/162034" target="_blank">
-                      <img src="https://dn-simplecloud.shiyanlou.com/gravatarNTY0MzE5MTc0NzA5.png?v=1464936302985&amp;imageView2/1/w/200/h/200">
-                    </a>
-
-                  </div>
-
-                </div>
-                <div class="answer-detail">
-                    <span class="comment-reply">
-
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/162034" target="_blank">
-
-                齐川同学促销装
-
-
-        </a>
-        <span class="user-level">L28</span>
-    </div>
-
-                    </span>
-
-                  <span class="comment-parent">
-                        回复
-
-
-
-
-    <div class="user-username ">
-        <a class="username" href="/user/347060" target="_blank">
-
-                到此一游
-
-
-        </a>
-        <span class="user-level">L4</span>
-    </div>
-
-                    </span>
-
-                  <div class="answer-content markdown-body">
-                    <textarea style="display:none;">同学你好！你可以先通过QQ等工具截图后保存为文件，然后在提问的对话框中点击`图片`按钮上传即可。</textarea>
-                  </div>
-
-
-
-                  <div>
-                    <span class="create-time">11分钟前</span>
-
+                    <span class="create-time">{{reply.createTime}}</span>
                     <hr/>
                   </div>
                 </div>
@@ -680,7 +545,62 @@
 
 <script>
   export default {
-    name: "QuestionDetail"
+    name: "QuestionDetail",
+    data() {
+      return {
+        commentDetail:{},
+        replyList:[],
+        queryParam:{
+          matchStr:null,
+          commentId:null,
+          pageIndex:1,
+          pageSize:10
+        },
+        pageCount: 1,
+      }
+    },
+    watch:{
+    },
+    created() {
+      let commentId = this.$route.params.id;
+      this.queryParam.commentId = commentId;
+      this.getCommentDetail();
+    },
+    methods: {
+      getCommentDetail(){
+        this.$axios.get(this.$requestBaseUrl.core + '/comment/listCommentDetail', {
+          params: this.queryParam
+        }).then(resp =>{
+          if(resp.data.success){
+            let commentDetail = resp.data.data;
+            this.commentDetail = commentDetail;
+            this.replyList = commentDetail.replyList;
+            //设置图片全路径
+            this.commentDetail.userImage = this.$requestBaseUrl.core + commentDetail.userImage;
+            this.replyList.forEach(reply=> {
+              reply.userImage = this.$requestBaseUrl.core + reply.replyerImage;
+              reply.toUserImage = this.$requestBaseUrl.core + reply.toUserImage;
+            });
+          }else {
+            this.$message.warning('获取评论详情失败');
+          }
+
+        }).catch(err=>this.$message.error('获取评论详情失败'));
+      },
+      toUserDetail(userId){
+        this.$router.push('/users/' + userId)
+      },
+      toCourseDetail(courseId){
+        this.$router.push('/courses/' + courseId);
+      },
+      toCommentDetail(commentId){
+        this.$router.push('/question/' + commentId);
+      },
+      toCommentList(){
+        this.$router.push('/question');
+      }
+
+    },
   }
 </script>
 
