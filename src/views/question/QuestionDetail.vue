@@ -3,10 +3,8 @@
     <div class="container layout layout-margin-top">
 
       <ol class="breadcrumb">
-        <li><a href="/questions/">讨论区</a></li>
-
+        <li><a href="javascript:void(0);" @click="toCommentList">讨论区</a></li>
         <li><a href="javascript:void(0);" @click="toCommentList">课程评论</a></li>
-
         <li class="active">
           <a href="javascript:void(0)" @click="toCommentDetail(commentDetail.commentId)">
             {{commentDetail.commentContent}}
@@ -23,10 +21,6 @@
               <span class="question-figure">{{commentDetail.replyNum}} 回复</span><span class="question-figure">{{commentDetail.starNum}} 点赞</span>
             </div>
             <div class="question-author">
-
-
-
-
               <div class="user-avatar ">
                 <a class="avatar" href="/user/347060" target="_blank">
                   <img :src="commentDetail.userImage">
