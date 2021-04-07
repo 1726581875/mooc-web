@@ -83,8 +83,8 @@
               </li>
 
               <li role="presentation">
-                <a href="#comments" class="stat-event" aria-controls="comments" role="tab"
-                   data-stat="course_comment" data-toggle="tab">课程评论({{commentList.length}})</a>
+                <a href="#comments" @click="getCommentList(url,0)" class="stat-event" aria-controls="comments" role="tab"
+                   data-stat="course_comment" data-toggle="tab">课程评论({{commentNumber}})</a>
               </li>
 
               <!--
@@ -93,10 +93,9 @@
                             </li>
               -->
 
-
               <li role="presentation">
-                <a href="#questions" class="stat-event" data-stat="course_question" aria-controls="questions" role="tab"
-                   data-toggle="tab">课程问答(1108)</a>
+                <a href="#comments" @click="getCommentList(url,1)" class="stat-event" data-stat="course_question" aria-controls="questions" role="tab"
+                   data-toggle="tab">课程问答({{questionNumber}})</a>
               </li>
             </ul>
             <div class="tab-content">
@@ -171,7 +170,7 @@
                             <div class="handle">
             <span>
               <a href="#" @click.prevent="show(index)">查看回复( {{item.replyList.length}})</a>
-              <a href="#" @click.prevent="replyed(item.commentId, null, item.userId, item.userName)">回复</a>
+              <a href="#" @click.prevent="replyed(item.commentId, '', item.userId, item.userName)">回复</a>
               <a
                 href="#"
                 :class="{'active': item.star}"
@@ -741,27 +740,33 @@
         commentList: [],
         reply: {
           courseId: '',
-          replyId: null,
+          replyId: '',
           commentId: '',
           userId: '',
           toUserId: '',
-          content: ''
+          content: '',
+          type: 0
         },
         // 页号
         pageIndex: 1,
         // 页数
         total: 1,
         // 获取评论url
-        url: this.$requestBaseUrl.core + '/comment/list?courseId=1',
-        requestBaseUrl: this.$requestBaseUrl.core
+        url: this.$requestBaseUrl.core + '/comment/list',
+        requestBaseUrl: this.$requestBaseUrl.core,
+        //评论数，提问数
+        commentNumber: 0,
+        questionNumber: 0,
       };
     },
     created() {
       //1、获取课程详情
       let courseId = this.$route.params.id;
       this.getCourseDetail(courseId);
+      //拼接获取rl
+      this.url = this.url + '?courseId=' + courseId;
       //获取评论
-      this.getArticle(this.url);
+      //this.getCommentList(this.url);
       //初始回复信息
       this.reply.courseId = courseId;
       this.reply.userId = localStorage.getItem('user-id');
@@ -810,6 +815,9 @@
               this.teacher.imageUrl = this.$requestBaseUrl.core + this.teacher.userImage;
               //章节列表
               this.chapterList = courseDetail.chapterList;
+              //课程评论数、提问数
+              this.commentNumber = this.course.commentNum;
+              this.questionNumber = this.course.questionNum;
 
               //2、若localStorage有记录，则播放之前视频
               let sectionId = localStorage.getItem('course-' + courseId);
@@ -818,6 +826,7 @@
                 this.chapterList.forEach(chapter => {
                   if (chapter.sectionList) {
                     chapter.sectionList.forEach(section => {
+                      //播放当前小节视频
                       if (sectionId == section.id) this.onClickPlayVideo(sectionId, section.video)
                     });
                   }
@@ -932,6 +941,7 @@
         formData.append('content', this.reply.content)
         formData.append('toUserId', this.reply.toUserId)
         formData.append('replyId', this.reply.replyId)
+        formData.append('type', this.reply.type)
         this.$axios.post(this.$requestBaseUrl.core + '/comment/insert', formData)
           .then(res => {
             if (res.data.success) {
@@ -939,7 +949,7 @@
                 type: 'success',
                 message: '评论成功！'
               })
-              this.getComment()
+              this.getCommentList(this.url,this.reply.type)
               this.reply.content = ''
               this.defaultReply()
             } else {
@@ -951,7 +961,12 @@
           })
       },
       // 封装点击上、下、跳页部分代码
-      getArticle(url) {
+      getCommentList(url,type) {
+         //拼接获取评论url参数，type = 0是课程评论 ，type=1是代码查课程问答
+        url = url + '&type=' + type;
+        //设置当前类型
+        this.reply.type = type;
+        //获取评论/问答List
         this.$axios.get(url, {withCredentials: true})
           .then(res => {
             if (res.data.success) {
@@ -959,7 +974,13 @@
                 this.commentList = []
                 res.data.data.content.forEach(item => {
                   this.commentList.push(item)
-                })
+                });
+                //重新设置准确的评论数和课程问答数
+                if(type == 0){
+                  this.commentNumber = res.data.data.pageTotal;
+                }else {
+                  this.questionNumber = res.data.data.pageTotal;
+                }
               } else {
                 this.$message.error('已经加载到尽头了！')
               }
@@ -975,17 +996,17 @@
       // 前往下一页
       getNext() {
         this.pageIndex++
-        this.getArticle(this.url + '&pageIndex=' + this.pageIndex)
+        this.getCommentList(this.url + '&pageIndex=' + this.pageIndex)
       },
       // 上一页
       getPre() {
         this.pageIndex--
-        this.getArticle(this.url + '&pageIndex=' + this.pageIndex)
+        this.getCommentList(this.url + '&pageIndex=' + this.pageIndex)
       },
       // 跳页
       pageSkip(index) {
         this.pageIndex = index
-        this.getArticle(this.url + '&pageIndex=' + this.pageIndex)
+        this.getCommentList(this.url + '&pageIndex=' + this.pageIndex)
       },
       // 获取评论的数据
       getComment() {

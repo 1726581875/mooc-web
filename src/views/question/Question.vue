@@ -11,19 +11,19 @@
               <ul class="nav nav-tabs question-types" role="tablist">
 
 
-                <li role="presentation" class="active">
-                  <a href="#all" aria-controls="all" role="tab" toggle="tab">全部</a>
+                <li role="presentation" :class="activeIndex == -1 ? 'active' : ''">
+                  <a href="#all" @click="getCommentList(-1)" aria-controls="all" role="tab" toggle="tab">全部</a>
                 </li>
 
-                <li role="presentation" >
-                  <a href="#course" aria-controls="course" role="tab" toggle="tab">课程问答</a>
+                <li role="presentation" :class="activeIndex == 0 ? 'active' : ''">
+                  <a href="#all" @click="getCommentList(0)" aria-controls="course" role="tab" toggle="tab">课程评论</a>
                 </li>
 
-                <li role="presentation" >
-                  <a href="#discussion" aria-controls="discussion" role="tab" toggle="tab">交流讨论</a>
+                <li role="presentation" :class="activeIndex == 1 ? 'active' : ''">
+                  <a href="#all" @click="getCommentList(1)" aria-controls="discussion" role="tab" toggle="tab">课程问答</a>
                 </li>
 
-                <li role="presentation" >
+<!--                <li role="presentation" >
                   <a href="#sharing" aria-controls="sharing" role="tab" toggle="tab">技术分享</a>
                 </li>
 
@@ -33,7 +33,7 @@
 
                 <li role="presentation" >
                   <a href="#notice" aria-controls="notice" role="tab" toggle="tab">站内公告</a>
-                </li>
+                </li>-->
 
 
 
@@ -1459,19 +1459,28 @@
           commentList:[],
           queryParam:{
             matchStr:'',
+            type: null,
             pageIndex:1,
             pageSize:10
           },
           pageCount: 1,
+
+          //切换样式active，全部0,课程评论1，课程问答2
+          activeIndex: 0
         }
       },
       watch:{
       },
       created() {
-      this.getCommentList();
+      this.getCommentList(-1);
       },
       methods: {
-        getCommentList(){
+        getCommentList(type){
+          //type,-1表示查询全部、0表示课程评论，1表示课程提问
+          this.queryParam.type = type == -1 ? '' : type;
+          // -1表示选择了全部，activeIndex=2，3分别为课程评论、课程提问
+          this.activeIndex = type;
+          console.log("this.activeIndex=" + this.activeIndex);
           this.$axios.get(this.$requestBaseUrl.core + '/comment/listAll', {
             params: this.queryParam
           }).then(resp =>{
