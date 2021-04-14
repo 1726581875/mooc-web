@@ -192,17 +192,12 @@
                                     <span class="name">
                                   {{minItem.replyerName}}&nbsp;&nbsp;&nbsp;
                                       <div style="display:inline;" v-if="minItem.parentId != 0"> <span>回复</span> {{minItem.toUserName}}
-                                      </div>
-
-                  </span>
+                                      </div></span>
                                     <span class="time">{{minItem.createTime | format}}</span>
                                   </div>
                                   <div class="handle">
                   <span>
-                    <a
-                      href="#"
-                      @click.prevent="replyed(item.commentId,minItem.replyId,item.userId, item.userName)"
-                    >回复</a>
+                    <a href="#" @click.prevent="replyed(item.commentId,minItem.replyId,minItem.userId, minItem.replyerName)">回复</a>
                     <a
                       href="#"
                       @click.prevent="minParise(minItem.replyId,index,i)"
@@ -921,6 +916,7 @@
       },
       // 回复评论
       replyed(commentId, replyId, userId, name) {
+        console.log("userId=" + userId + "name=" + name)
         this.reply.replyId = replyId;
         this.reply.commentId = commentId;
         this.reply.toUserId = userId
