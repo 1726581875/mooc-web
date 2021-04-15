@@ -54,22 +54,18 @@
                                     <div class="course-img">
 
                                         <img alt="新手指南之玩转慕课" :src="course.imageUrl">
-
+npm
                                     </div>
 
                                     <div class="course-body">
                                         <span class="course-title" data-toggle="tooltip" data-placement="bottom"
-                                              title="新手指南之玩转实验楼">{{course.name}}</span>
+                                              title="新手指南之玩转慕课">{{course.name}}</span>
                                     </div>
                                     <div class="course-footer">
-			<span class="course-per-num pull-left">
-                <i class="fa fa-users"></i>
-
-                {{course.learningNum}}
-
-			</span>
-
-
+                                        <span class="course-per-num pull-left">
+                                            <i class="fa fa-users"></i>
+                                            {{course.learningNum}}
+                                        </span>
                                     </div>
                                 </a>
                             </div>
@@ -123,8 +119,8 @@
                                     </div>
                                 </div>
                                 <div class="media-body">
-                                    <span class="media-heading username">欢迎来到实验楼</span>
-                                    <p class="vip-remain">做实验，学编程</p>
+                                    <span class="media-heading username">欢迎来到在线慕课用户端</span>
+                                    <p class="vip-remain">免费看课程，学知识</p>
 
                                 </div>
                             </div>
@@ -140,14 +136,14 @@
                             </div>
 
                             <div class="userinfo-footer row">
-                                <div class="col-md-6 col-xs-6 pos-left">
+<!--                                <div class="col-md-6 col-xs-6 pos-left">
 
                                     <a href="#sign-modal" data-toggle="modal" data-sign="signin"><span class="glyphicon glyphicon-bookmark"></span> 加入私有课</a>
 
                                 </div>
                                 <div class="col-md-6 col-xs-6 pos-right">
                                     <a href="/contribute" target="_blank"><span class="glyphicon glyphicon-send"></span> 我要投稿</a>
-                                </div>
+                                </div>-->
 
                                 <div id="join-private-course" class="modal fade words-ctrl" tabindex="-1" role="dialog">
                                     <div class="modal-dialog" role="document">
@@ -202,24 +198,22 @@
                     </div>
 
                     <div class="sidebox">
-
                         <div class="sidebox-header">
-                            <h4 class="sidebox-title">最热课程</h4>
+                            <h4 class="sidebox-title">热门课程Top10</h4>
                         </div>
                         <div class="sidebox-body course-content side-list-body">
-                            <a href="/paths/python"><img style="width:25px;height:25px" src="../../../public/img/1471513769430.png"> Python 研发工程师</a>
-                            <a href="/paths/bigdata"><img style="width:25px;height:25px" src="../../../public/img/1471513926288.png"> 大数据工程师</a>
-                            <a href="/paths/cpp"><img style="width:25px;height:25px" src="../../../public/img/1471513793360.png"> C++ 研发工程师</a>
-                            <a href="/paths/security"><img style="width:25px;height:25px" src="../../../public/img/1471513867033.png"> 信息安全工程师</a>
-                            <a href="/paths/linuxsys"><img style="width:25px;height:25px" src="../../../public/img/1471514004752.png"> Linux 运维工程师</a>
+                            <span  v-for="topCourse in top10CourseList">
+                             <a :href="'courses/' + topCourse.courseId"><img style="width:25px;height:25px" src="topCourse.imageUrl"> {{topCourse.courseName}}</a>
+                            </span>
+
                         </div>
 
                     </div>
 
-                    <div class="side-image side-qrcode">
+<!--                    <div class="side-image side-qrcode">
                         <img src="../../../public/img/ShiyanlouQRCode.png">
                         <div class="side-image-text">关注公众号，手机看教程</div>
-                    </div>
+                    </div>-->
 
                 </div>
             </div>
@@ -431,6 +425,10 @@
                     code:''
                 },
                 vcUrl: this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime(),
+                //排名前10的课程
+                top10CourseList:[
+                    {courseName:"SpringCloud入门实践",imageUrl:'../../../public/img/1471513769430.png'}
+                    ]
             };
         },
         created() {
@@ -439,8 +437,26 @@
             //通知父组件（导航栏，更新视图）
             this.$emit('initUserLoginStatus', null);
             this.listAllCategory();
+            //查询top10的课程
+            this.listTop10Course();
         },
         methods: {
+
+            listTop10Course(){
+
+                this.$axios.get(this.$requestBaseUrl.statistics + '/courses/listTop10')
+                    .then(resp=>{
+                        if(resp.data.success){
+                         this.top10CourseList = resp.data.data;
+                         this.top10CourseList.forEach(course=>course.imageUrl = this.$requestBaseUrl.core + course.image)
+                        }else {
+                            this.$message.warning('获取排名前10的课程失败');
+                        }
+                    }).catch(err=>{
+                    this.$message.error('获取排名前10的课程失败');
+                });
+
+            },
             /**
              * 点击登录
              */
@@ -473,7 +489,7 @@
                 }
             },
             /**
-             * 刷新二维码
+             * 刷新验证码
              */
             updateVerificationCode() {
                 this.vcUrl = this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime();
