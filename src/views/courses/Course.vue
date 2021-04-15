@@ -279,17 +279,17 @@ npm
                                 <form>
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <div class="input-group-addon">
+    <!--                                        <div class="input-group-addon">
                                                 <i class="fa fa-envelope" style="margin:0;"></i>
-                                            </div>
+                                            </div>-->
                                             <input type="text" name="username" class="form-control" v-model:value="param.username" placeholder="请输入账号">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <div class="input-group-addon">
+<!--                                            <div class="input-group-addon">
                                                 <i class="fa fa-lock" style="margin:0;"></i>
-                                            </div>
+                                            </div>-->
                                             <input type="password" name="password" class="form-control" v-model:value="param.password" placeholder="请输入密码">
                                         </div>
                                     </div>
@@ -308,14 +308,14 @@ npm
                                     <div class="form-group">
                                         <input class="btn btn-primary" name="submit" type="submit" value="登录" @click.prevent="submitLogin">
                                     </div>
-                                    <div class="form-group widget-signin">
+<!--                                    <div class="form-group widget-signin">
                                         <span>快速登录</span>
                                         <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
                                         <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
                                         <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
                                         <a href="/auth/github?next="><i class="fa fa-github"></i></a>
                                         <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
-                                    </div>
+                                    </div>-->
                                     <div class="form-group error-msg">
                                         <div class="alert alert-danger" role="alert"></div>
                                     </div>
@@ -326,42 +326,50 @@ npm
                                 <form action="/register" method="post">
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <div class="input-group-addon">
+<!--                                            <div class="input-group-addon">
                                                 <i class="fa fa-envelope" style="margin:0;"></i>
-                                            </div>
-                                            <input type="email" name="username" class="form-control" placeholder="请输入用户名">
+                                            </div>-->
+                                            <input type="text" name="username" v-model="register.account" class="form-control" placeholder="请输入用户名">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <div class="input-group-addon">
+<!--                                            <div class="input-group-addon">
                                                 <i class="fa fa-lock" style="margin:0;"></i>
-                                            </div>
-                                            <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                                            </div>-->
+                                            <input type="password" name="password" v-model="register.password" class="form-control" placeholder="请输入密码">
                                         </div>
-                                    </div>
-                                    <div class="form-inline">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <input type="text" name="captcha_v" class="form-control" placeholder="请输入验证码">
-                                            </div>
-                                        </div>
-                                        <img class="verify-code" src="" source="https://www.shiyanlou.com/captcha.gif">
                                     </div>
                                     <div class="form-group">
-                                        <input class="btn btn-primary" name="submit" type="submit" value="注册">
+                                        <div class="input-group">
+                                            <input type="password" name="password" v-model="register.confirmPassword" class="form-control"  placeholder="请输入确认密码">
+                                        </div>
+                                    </div>
+                                  <div style="margin-bottom: 10px;">
+                                    <label class="radio-inline">
+                                      <label class="radio-inline">
+                                        <input type="radio" name="optionsRadiosinline" id="optionsRadios3" @click="register.type=1" checked> 普通用户
+                                      </label>
+                                      <label class="radio-inline">
+                                        <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  @click="register.type=2"> 教师
+                                      </label>
+                                    </label>
+                                  </div>
+
+                                    <div class="form-group">
+                                        <input class="btn btn-primary" name="submit" type="submit" value="注册"  @click.prevent="toRegister">
                                     </div>
                                     <div class="form-group agree-privacy">
                                         注册表示您已经同意我们的<a href="../privacy/index.html" target="_blank">隐私条款</a>
                                     </div>
-                                    <div class="form-group widget-signup">
+<!--                                    <div class="form-group widget-signup">
                                         <span>快速注册</span>
                                         <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
                                         <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
                                         <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
                                         <a href="/auth/github?next="><i class="fa fa-github"></i></a>
                                         <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
-                                    </div>
+                                    </div>-->
                                     <div class="form-group error-msg">
                                         <div class="alert alert-danger" role="alert"></div>
                                     </div>
@@ -428,7 +436,14 @@ npm
                 //排名前10的课程
                 top10CourseList:[
                     {courseName:"SpringCloud入门实践",imageUrl:'../../../public/img/1471513769430.png'}
-                    ]
+                    ],
+                //注册对象
+                register:{
+                  account:'',
+                  password:'',
+                  confirmPassword:'',
+                  type: 1
+                }
             };
         },
         created() {
@@ -441,6 +456,13 @@ npm
             this.listTop10Course();
         },
         methods: {
+
+          toRegister(){
+            console.log("register=" + this.register.type);
+            console.log("account=" + this.register.account);
+            console.log("password=" + this.register.password);
+            console.log("confirmPassword=" + this.register.confirmPassword);
+          },
 
             listTop10Course(){
 

@@ -33,7 +33,7 @@
                                     <img class="verify-code" :src="vcUrl" @click="updateVerificationCode">
                                 </div>
                                 <button class="btn register"  @click.prevent="submitLogin">登录</button>
-                                <p class="tip">点击"加入实验楼"，表示您已经同意我们的<a href="privacy/index.html" target="_blank"> 隐私条款</a></P>
+                                <p class="tip">点击"加入慕课学习"，表示您已经同意我们的<a href="privacy/index.html" target="_blank"> 隐私条款</a></P>
                             </form>
 
                         </div>
@@ -656,12 +656,12 @@
                                         注册表示您已经同意我们的<a href="privacy/index.html" target="_blank">隐私条款</a>
                                     </div>
                                     <div class="form-group widget-signup">
-                                        <span>快速注册</span>
+<!--                                        <span>快速注册</span>
                                         <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
                                         <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
                                         <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
                                         <a href="/auth/github?next="><i class="fa fa-github"></i></a>
-                                        <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
+                                        <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>-->
                                     </div>
                                     <div class="form-group error-msg">
                                         <div class="alert alert-danger" role="alert"></div>
