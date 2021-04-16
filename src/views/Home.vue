@@ -49,8 +49,8 @@
 
                     <form class="navbar-form navbar-right" action="search" method="get" role="search">
                         <div class="form-group btns">
-                            <input type="text" class="form-control" name="search" autocomplete="off" placeholder="搜索 课程/问答">
-                            <a class="btn btn-default" data-sign="signup" href="#sign-modal" data-toggle="modal">搜索</a>
+                            <input type="text" class="form-control" name="search" autocomplete="off" placeholder="搜索课程">
+                            <a class="btn btn-default" data-sign="signup" href="javascript:void(0)" @click="toSearchCourse" data-toggle="modal">搜索</a>
                         </div>
                     </form>
                 </div>
@@ -192,8 +192,12 @@
             toQuestion(){
                 this.$router.push('/question');
             },
-
-
+            /**
+             * 前往搜索课程页
+             */
+            toSearchCourse(){
+                this.$router.push('/search');
+            },
         }
     }
 </script>
