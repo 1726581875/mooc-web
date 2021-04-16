@@ -27,6 +27,10 @@
                         <li class="">
                             <a href="javascript:void(0);" @click="toQuestion">讨论区</a>
                         </li>
+
+                        <li class="">
+                            <a href="javascript:void(0);" @click="toSearchCourse">搜索课程</a>
+                        </li>
 <!--                        <li class=" bootcamp new-nav logo-1111">
                             <a href="bootcamp/index.html">训练营</a>
                         </li>
@@ -47,12 +51,12 @@
                     </div>
 
 
-                    <form class="navbar-form navbar-right" action="search" method="get" role="search">
+<!--                    <form class="navbar-form navbar-right" action="search" method="get" role="search">
                         <div class="form-group btns">
                             <input type="text" class="form-control" name="search" autocomplete="off" placeholder="搜索课程">
                             <a class="btn btn-default" data-sign="signup" href="javascript:void(0)" @click="toSearchCourse" data-toggle="modal">搜索</a>
                         </div>
-                    </form>
+                    </form>-->
                 </div>
             </div>
         </nav>

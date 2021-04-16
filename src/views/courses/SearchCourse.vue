@@ -7,90 +7,49 @@
           <div class="col-md-9 layout-body">
 
             <div class="content">
+                <input type="text" class="form-control" style="width: 70%;display: inline-block"
+                       name="search" autocomplete="off" placeholder="搜索课程" v-model="queryParam.keyWord">
+              <button type="button" class="btn btn-info" style="margin-left: 20px;margin-bottom: 7px" @click="getCourseListByKeyWord">搜索</button>
+
+
+
 
               <ul class="nav nav-tabs question-types" role="tablist">
 
 
-                <li role="presentation" :class="activeIndex == -1 ? 'active' : ''">
-                  <a href="#all" @click="getCommentList(-1)" aria-controls="all" role="tab" toggle="tab">全部</a>
-                </li>
-
-                <li role="presentation" :class="activeIndex == 0 ? 'active' : ''">
-                  <a href="#all" @click="getCommentList(0)" aria-controls="course" role="tab" toggle="tab">课程评论</a>
-                </li>
-
-                <li role="presentation" :class="activeIndex == 1 ? 'active' : ''">
-                  <a href="#all" @click="getCommentList(1)" aria-controls="discussion" role="tab" toggle="tab">课程问答</a>
-                </li>
-
-<!--                <li role="presentation" >
-                  <a href="#sharing" aria-controls="sharing" role="tab" toggle="tab">技术分享</a>
-                </li>
-
-                <li role="presentation" >
-                  <a href="#labreport" aria-controls="labreport" role="tab" toggle="tab">实验报告</a>
-                </li>
-
-                <li role="presentation" >
-                  <a href="#notice" aria-controls="notice" role="tab" toggle="tab">站内公告</a>
-                </li>-->
-
-
-
-                <div class="question-sort">
-                  <a class="active" href="#newest" >最新</a>
-                  /
-                    <a  href="#hot" >最热</a>
-                  /
-                   <a  href="#unanswered" >未回复</a>
-                </div>
               </ul>
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active">
 
                   <ul class="row question-items">
 
-                    <!-- 评论 List-->
-                    <li class="question-item" v-for="comment in commentList" :key="comment.commentId">
-                      <div class="col-md-10">
+                    <!-- 课程 List-->
+                    <li class="question-item" v-for="course in courseList" :key="course.courseId">
+                      <div class="col-md-10"  style="display: inline-block;float: left">
                         <div class="col-sm-2 question-item-author">
-                          <div class="user-avatar">
-                            <a class="avatar" href="javascript:void(0);"  @click="toUserDetail(comment.userId)">
-                              <img :src="comment.userImage">
+                          <div class="course-image">
+                            <a class="image" href="javascript:void(0);"  @click="toCourseDetail(course.courseId)"
+                               style="display: inline-block;float: left">
+                              <img :src="course.courseImage">
                             </a>
                           </div>
                         </div>
-                        <div class="col-sm-10">
+                        <div style="margin-left: 80px;display: inline-block;float: left">
                           <h4>
-                            <a class="question-item-title" href="javascript:void(0);"  @click="toCommentDetail(comment.commentId)">   {{comment.commentContent}}</a>
+                            <a class="question-item-title" href="javascript:void(0);"  @click="toCourseDetail(course.courseId)"
+                               v-html="course.courseName"></a>
                           </h4>
                           <div class="question-item-summary">
-
-                            <div class="user-username ">
-                              <a class="avatar" href="javascript:void(0);"  @click="toUserDetail(comment.userId)">
-                                {{comment.userName}}
-                              </a>
-                            </div>
-
-                            <span class="question-item-date">{{comment.createTime}}</span>评论了课程 <span class="question-item-date">
-                            <div class="user-username ">
-                          <a class="username" href="javascript:void(0);"  @click="toCourseDetail(comment.courseId)">
-                            {{comment.courseName}}
-                          </a>
-                    </div>
-                  </span>
+                            <span class="question-item-date" v-html="course.summary"></span>
 
                           </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2 question-item-rank">
-                        <div class="question-item-answered">
-                          <div>{{comment.replyNum}}</div>
-                          <div>回复</div>
-                        </div>
-                        <div class="question-item-views">
-                          <div>{{comment.starNum}}</div>
-                          <div>点赞</div>
+                           <div class="question-item-summary">
+                             &nbsp;&nbsp;&nbsp;&nbsp;  教师：
+                          <a class="username" href="javascript:void(0);"  @click="toUserDetail(course.teacherId)">
+                            {{course.teacherName}}
+                          </a>
+                          创建时间：{{course.createTime}}
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -131,9 +90,6 @@
 
 
 
-            <a class="btn side-btn" href="#sign-modal" data-toggle="modal" data-sign="signin">我要发帖</a>
-
-
             <div class="panel panel-default panel-userinfo">
               <div class="panel-body body-userinfo">
                 <div class="media userinfo-header">
@@ -148,8 +104,8 @@
                   </div>
                   <div class="media-body">
 
-                    <span class="media-heading username">欢迎来到实验楼</span>
-                    <p class="vip-remain">做实验，学编程</p>
+                    <span class="media-heading username">欢迎来到慕课学习网</span>
+                    <p class="vip-remain">在线课程，免费学习</p>
 
                   </div>
                 </div>
@@ -527,38 +483,34 @@
       name: "SearchCourse",
       data() {
         return {
-          commentList:[],
+          courseList:[],
           queryParam:{
-            matchStr:'',
-            type: null,
+            keyWord:'',
             pageIndex:1,
             pageSize:10
           },
           pageCount: 1,
 
           //切换样式active，全部0,课程评论1，课程问答2
-          activeIndex: 0
+          activeIndex: 0,
+
         }
       },
       watch:{
       },
       created() {
-      this.getCommentList(-1);
+      this.getCourseListByKeyWord(-1);
       },
       methods: {
-        getCommentList(type){
-          //type,-1表示查询全部、0表示课程评论，1表示课程提问
-          this.queryParam.type = type == -1 ? '' : type;
-          // -1表示选择了全部，activeIndex=2，3分别为课程评论、课程提问
-          this.activeIndex = type;
-          console.log("this.activeIndex=" + this.activeIndex);
-          this.$axios.get(this.$requestBaseUrl.core + '/comment/listAll', {
+        getCourseListByKeyWord(){
+          console.log("keyWord=" + this.queryParam.keyWord);
+          this.$axios.get(this.$requestBaseUrl.statistics + '/courses/search', {
             params: this.queryParam
           }).then(resp =>{
                if(resp.data.success){
-                 this.commentList = resp.data.data.content;
+                 this.courseList = resp.data.data.content;
                  //设置图片全路径
-                 this.commentList.forEach(comment=>comment.userImage = this.$requestBaseUrl.core + comment.userImage);
+                 this.courseList.forEach(course=>course.courseImage = this.$requestBaseUrl.core + course.courseImage);
                  //设置总页数
                  this.pageCount = resp.data.data.pageCount;
                  //设置第一页样式active
@@ -576,7 +528,7 @@
           $("#mooc-index-"+index).addClass("active");
 
           this.queryParam.pageIndex = index;
-          this.getCommentList();
+          this.getCourseListByKeyWord();
         },
 
         prePage(){
@@ -590,7 +542,7 @@
           $("#mooc-index-"+prePageIndex).addClass("active");
           //查询
           this.queryParam.pageIndex = prePageIndex;
-          this.getCommentList();
+          this.getCourseListByKeyWord();
         },
         nextPage(){
           //参数判断
@@ -603,7 +555,7 @@
           $("#mooc-index-"+nextPageIndex).addClass("active");
           //查询
           this.queryParam.pageIndex = nextPageIndex;
-          this.getCommentList();
+          this.getCourseListByKeyWord();
         },
         toUserDetail(userId){
           this.$router.push('/users/' + userId)
@@ -611,8 +563,8 @@
         toCourseDetail(courseId){
           this.$router.push('/courses/' + courseId);
         },
-        toCommentDetail(commentId){
-          this.$router.push('/question/' + commentId);
+        toCommentDetail(courseId){
+          this.$router.push('/question/' + courseId);
         }
 
       },
@@ -621,4 +573,10 @@
 
 <style scoped>
 
+ /deep/ .course-image .image img {
+    width: 120px;
+    height: 80px;
+   display: inline-block;
+    /* border-radius: 50%; */
+  }
 </style>
