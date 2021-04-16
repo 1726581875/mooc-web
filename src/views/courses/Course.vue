@@ -348,10 +348,10 @@ npm
                                   <div style="margin-bottom: 10px;">
                                     <label class="radio-inline">
                                       <label class="radio-inline">
-                                        <input type="radio" name="optionsRadiosinline" id="optionsRadios3" @click="register.type=1" checked> 普通用户
+                                        <input type="radio" name="optionsRadiosinline" id="optionsRadios3" @click="register.userType='普通用户'" checked> 普通用户
                                       </label>
                                       <label class="radio-inline">
-                                        <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  @click="register.type=2"> 教师
+                                        <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  @click="register.userType='教师'"> 教师
                                       </label>
                                     </label>
                                   </div>
@@ -442,7 +442,7 @@ npm
                   account:'',
                   password:'',
                   confirmPassword:'',
-                  type: 1
+                    userType: '普通用户'
                 }
             };
         },
@@ -456,12 +456,38 @@ npm
             this.listTop10Course();
         },
         methods: {
-
+            /**
+             * 注册方法
+             */
           toRegister(){
-            console.log("register=" + this.register.type);
+            console.log("register=" + this.register.userType);
             console.log("account=" + this.register.account);
             console.log("password=" + this.register.password);
             console.log("confirmPassword=" + this.register.confirmPassword);
+
+              let registerParam =JSON.parse(JSON.stringify(this.register));
+              //密码加密传输rsa
+              registerParam.password = encrypt(registerParam.password);
+              registerParam.confirmPassword = encrypt(registerParam.confirmPassword);
+
+              this.$axios.post(this.$requestBaseUrl.authorize + '/user/register',registerParam)
+                  .then(resp=>{
+                      if(resp.data.success){
+
+                          if(this.register.userType == '教师'){
+                              this.$message.success('提交申请成功，等待管理员审批');
+                          }else {
+                              this.$message.success('注册成功');
+                          }
+                          location.reload();
+                      }else {
+                          this.$message.warning('注册失败');
+                      }
+                  }).catch(err=>{
+                  this.$message.error('获取排名前10的课程失败');
+              });
+
+
           },
 
             listTop10Course(){
