@@ -707,7 +707,7 @@
         data: function() {
             return {
                 param: {
-                    username: 'zhangsan',
+                    username: 'zhangsanfeng',
                     password: 'root',
                     code:''
                 },
