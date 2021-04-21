@@ -37,13 +37,13 @@
 
 
 
-                <div class="question-sort">
+<!--                <div class="question-sort">
                   <a class="active" href="#newest" >最新</a>
                   /
                     <a  href="#hot" >最热</a>
                   /
                    <a  href="#unanswered" >未回复</a>
-                </div>
+                </div>-->
               </ul>
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active">
@@ -1060,10 +1060,7 @@
 
 
 
-            <a class="btn side-btn" href="#sign-modal" data-toggle="modal" data-sign="signin">我要发帖</a>
-
-
-            <div class="panel panel-default panel-userinfo">
+            <div class="panel panel-default panel-userinfo" v-if="!userIsLogin">
               <div class="panel-body body-userinfo">
                 <div class="media userinfo-header">
                   <div class="media-left">
@@ -1076,9 +1073,8 @@
                     </div>
                   </div>
                   <div class="media-body">
-
-                    <span class="media-heading username">欢迎来到实验楼</span>
-                    <p class="vip-remain">做实验，学编程</p>
+                    <span class="media-heading username">欢迎来到在线慕课用户端</span>
+                    <p class="vip-remain">免费看课程，学知识</p>
 
                   </div>
                 </div>
@@ -1094,14 +1090,14 @@
                 </div>
 
                 <div class="userinfo-footer row">
-                  <div class="col-md-6 col-xs-6 pos-left">
+                  <!--                                <div class="col-md-6 col-xs-6 pos-left">
 
-                    <a href="#sign-modal" data-toggle="modal" data-sign="signin"><span class="glyphicon glyphicon-bookmark"></span> 加入私有课</a>
+                                                      <a href="#sign-modal" data-toggle="modal" data-sign="signin"><span class="glyphicon glyphicon-bookmark"></span> 加入私有课</a>
 
-                  </div>
-                  <div class="col-md-6 col-xs-6 pos-right">
-                    <a href="/contribute" target="_blank"><span class="glyphicon glyphicon-send"></span> 我要投稿</a>
-                  </div>
+                                                  </div>
+                                                  <div class="col-md-6 col-xs-6 pos-right">
+                                                      <a href="/contribute" target="_blank"><span class="glyphicon glyphicon-send"></span> 我要投稿</a>
+                                                  </div>-->
 
                   <div id="join-private-course" class="modal fade words-ctrl" tabindex="-1" role="dialog">
                     <div class="modal-dialog" role="document">
@@ -1110,12 +1106,12 @@
                           <h4 class="modal-title">加入私有课</h4>
                         </div>
                         <div class="modal-body">
-                          <div style="margin:15px 0; font:16px;">输入教师提供的私有课程码可以加入教师的私有课程。</div>
+                          <div style="margin:15px 0; font-size:16px;">输入教师提供的私有课程码可以加入教师的私有课程。</div>
                           <form id="private-course-form" method="POST" action="/courses/join">
                             <div class="form-group">
                               <label for="code">邀请码</label>
                               <input class="form-control" id="code" name="code" type="text" value="">
-                              <input name="_csrf_token" type=hidden value="1483789088##bbf83c51243ab12daa94911c8865a65bdc66c4d8">
+                              <input name="_csrf_token" type=hidden value="1483780974##87f89328c5616669f00302a263fe9061bb852818">
                             </div>
                           </form>
 
@@ -1130,27 +1126,50 @@
                 </div>
               </div>
             </div>
+            <div class="sidebox mooc-teacher"  v-if="userIsLogin">
+              <div class="sidebox-header mooc-header">
+                <h4 class="sidebox-title">用户信息</h4>
+              </div>
+              <div class="sidebox-body mooc-content">
+                <a :href="'/users/' + user.id" target="_blank">
+                  <img :src="user.imageUrl">
+                </a>
+                <div class="mooc-info">
+                  <div class="name"><strong>{{user.name}}</strong> </div>
+
+                  <div class="courses">共收藏过<strong>18</strong>门课程</div>
+                </div>
+                <div class="mooc-extra-info">
+                  <div class="word long-paragraph">
+                    {{user.motto ? user.motto : '该用户什么也没写..'}}
+                  </div>
+                </div>
+              </div>
+              <div class="sidebox-footer mooc-footer">
+                <a :href="'/users/' + user.id" target="_blank">查看收藏的所有课程 ></a>
+              </div>
+            </div>
 
 
             <div class="sidebox">
-
               <div class="sidebox-header">
-                <h4 class="sidebox-title">最热路径</h4>
+                <h4 class="sidebox-title">热门课程top10</h4>
               </div>
               <div class="sidebox-body course-content side-list-body">
-                <a href="/paths/python"><img style="width:25px;height:25px" src="../../../public/img/1471513769430.png"> Python 研发工程师</a>
-                <a href="/paths/bigdata"><img style="width:25px;height:25px" src="../../../public/img/1471513926288.png"> 大数据工程师</a>
-                <a href="/paths/cpp"><img style="width:25px;height:25px" src="../../../public/img/1471513793360.png"> C++ 研发工程师</a>
-                <a href="/paths/security"><img style="width:25px;height:25px" src="../../../public/img/1471513867033.png"> 信息安全工程师</a>
-                <a href="/paths/linuxsys"><img style="width:25px;height:25px" src="../../../public/img/1471514004752.png"> Linux 运维工程师</a>
+                            <span  v-for="topCourse in top10CourseList">
+                             <a :href="'courses/' + topCourse.courseId">
+                               <img style="width:25px;height:25px" :src="topCourse.imageUrl">
+                               {{topCourse.courseName}} <!--{{topCourse.count}}-->
+                             </a>
+                            </span>
               </div>
-
             </div>
 
-            <div class="side-image side-qrcode">
+<!--            <div class="side-image side-qrcode">
               <img src="../../../public/img/ShiyanlouQRCode.png">
               <div class="side-image-text">关注公众号，手机看教程</div>
-            </div>
+            </div>-->
+<!--
 
             <div class="sidebox side-list">
               <div class="sidebox-header">
@@ -1167,6 +1186,7 @@
                 <div class="pull-right"><a href="/questions/?tag=%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98" target="_blank">查看全部</a></div>
               </div>
             </div>
+-->
 
 
           </div>
@@ -1327,93 +1347,103 @@
                   <a href="#signup-form" aria-controls="signup-form" role="tab" data-toggle="tab">注册</a>
                 </li>
               </ul>
+              <!-- 登录弹出框 -->
               <div class="tab-content">
                 <div role="tabpanel" class="tab-pane active" id="signin-form">
-                  <form action="/login" method="post">
+                  <form>
                     <div class="form-group">
                       <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-envelope" style="margin:0;"></i>
-                        </div>
-                        <input type="email" name="login" class="form-control" placeholder="请输入邮箱">
+                        <!--                                        <div class="input-group-addon">
+                                                                    <i class="fa fa-envelope" style="margin:0;"></i>
+                                                                </div>-->
+                        <input type="text" name="username" class="form-control" v-model:value="param.username" placeholder="请输入账号">
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-lock" style="margin:0;"></i>
-                        </div>
-                        <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                        <!--                                            <div class="input-group-addon">
+                                                                        <i class="fa fa-lock" style="margin:0;"></i>
+                                                                    </div>-->
+                        <input type="password" name="password" class="form-control" v-model:value="param.password" placeholder="请输入密码">
                       </div>
                     </div>
-                    <div class="form-inline verify-code-item" style="display:none;">
+                    <div class="form-inline verify-code-item" >
                       <div class="form-group">
                         <div class="input-group">
-                          <input type="text" name="captcha_v" class="form-control" placeholder="请输入验证码">
+                          <input type="text" name="captcha_v" class="form-control" v-model:value="param.code" placeholder="请输入验证码">
                         </div>
                       </div>
-                      <img class="verify-code" src="" source="https://www.shiyanlou.com/captcha.gif">
+                      <img class="verify-code" :src="vcUrl" @click="updateVerificationCode">
                     </div>
                     <div class="form-group remember-login">
                       <input name="remember" type="checkbox" value="y"> 下次自动登录
                       <a class="pull-right" href="../reset_password/index.html">忘记密码？</a>
                     </div>
                     <div class="form-group">
-                      <input class="btn btn-primary" name="submit" type="submit" value="进入实验楼">
+                      <input class="btn btn-primary" name="submit" type="submit" value="登录" @click.prevent="submitLogin">
                     </div>
-                    <div class="form-group widget-signin">
-                      <span>快速登录</span>
-                      <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
-                      <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
-                      <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
-                      <a href="/auth/github?next="><i class="fa fa-github"></i></a>
-                      <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
-                    </div>
+                    <!--                                    <div class="form-group widget-signin">
+                                                            <span>快速登录</span>
+                                                            <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
+                                                            <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
+                                                            <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
+                                                            <a href="/auth/github?next="><i class="fa fa-github"></i></a>
+                                                            <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
+                                                        </div>-->
                     <div class="form-group error-msg">
                       <div class="alert alert-danger" role="alert"></div>
                     </div>
                   </form>
                 </div>
+                <!-- 注册弹出框 -->
                 <div role="tabpanel" class="tab-pane" id="signup-form">
                   <form action="/register" method="post">
                     <div class="form-group">
                       <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-envelope" style="margin:0;"></i>
-                        </div>
-                        <input type="email" name="email" class="form-control" placeholder="请输入邮箱">
+                        <!--                                            <div class="input-group-addon">
+                                                                        <i class="fa fa-envelope" style="margin:0;"></i>
+                                                                    </div>-->
+                        <input type="text" name="username" v-model="register.account" class="form-control" placeholder="请输入用户名">
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
-                        <div class="input-group-addon">
-                          <i class="fa fa-lock" style="margin:0;"></i>
-                        </div>
-                        <input type="password" name="password" class="form-control" placeholder="请输入密码">
+                        <!--                                            <div class="input-group-addon">
+                                                                        <i class="fa fa-lock" style="margin:0;"></i>
+                                                                    </div>-->
+                        <input type="password" name="password" v-model="register.password" class="form-control" placeholder="请输入密码">
                       </div>
-                    </div>
-                    <div class="form-inline">
-                      <div class="form-group">
-                        <div class="input-group">
-                          <input type="text" name="captcha_v" class="form-control" placeholder="请输入验证码">
-                        </div>
-                      </div>
-                      <img class="verify-code" src="" source="https://www.shiyanlou.com/captcha.gif">
                     </div>
                     <div class="form-group">
-                      <input class="btn btn-primary" name="submit" type="submit" value="注册">
+                      <div class="input-group">
+                        <input type="password" name="password" v-model="register.confirmPassword" class="form-control"  placeholder="请输入确认密码">
+                      </div>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                      <label class="radio-inline">
+                        <label class="radio-inline">
+                          <input type="radio" name="optionsRadiosinline" id="optionsRadios3" @click="register.userType='普通用户'" checked> 普通用户
+                        </label>
+                        <label class="radio-inline">
+                          <input type="radio" name="optionsRadiosinline" id="optionsRadios4"  @click="register.userType='教师'"> 教师
+                        </label>
+                      </label>
+                    </div>
+
+                    <div class="form-group">
+                      <input class="btn btn-primary" name="submit" type="submit" value="注册"  @click.prevent="toRegister">
                     </div>
                     <div class="form-group agree-privacy">
                       注册表示您已经同意我们的<a href="../privacy/index.html" target="_blank">隐私条款</a>
                     </div>
-                    <div class="form-group widget-signup">
-                      <span>快速注册</span>
-                      <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
-                      <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
-                      <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
-                      <a href="/auth/github?next="><i class="fa fa-github"></i></a>
-                      <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
-                    </div>
+                    <!--                                    <div class="form-group widget-signup">
+                                                            <span>快速注册</span>
+                                                            <a href="/auth/qq?next="><i class="fa fa-qq"></i></a>
+                                                            <a href="/auth/weibo?next="><i class="fa fa-weibo"></i></a>
+                                                            <a href="/auth/weixin?next="><i class="fa fa-weixin"></i></a>
+                                                            <a href="/auth/github?next="><i class="fa fa-github"></i></a>
+                                                            <a href="/auth/renren?next="><i class="fa fa-renren"></i></a>
+                                                        </div>-->
                     <div class="form-group error-msg">
                       <div class="alert alert-danger" role="alert"></div>
                     </div>
@@ -1424,6 +1454,7 @@
           </div>
         </div>
       </div>
+
 
       <div id="base-data"
 
@@ -1452,6 +1483,7 @@
 </template>
 
 <script>
+  import { encrypt } from '@/utils/rsaEncrypt'
     export default {
       name: "Question",
       data() {
@@ -1466,15 +1498,84 @@
           pageCount: 1,
 
           //切换样式active，全部0,课程评论1，课程问答2
-          activeIndex: 0
+          activeIndex: 0,
+          //排名前10的课程
+          top10CourseList:[
+            {courseName:"SpringCloud入门实践",imageUrl:'../../../public/img/1471513769430.png'}
+          ],
+          //用户是否已经登录
+          userIsLogin:false,
+          //用户基本信息
+          user:{
+            id:''
+          },
+          //登录相关
+          param: {
+            username: 'zhangsan',
+            password: 'root',
+            code:''
+          },
+          vcUrl: this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime(),
+          //注册对象
+          register:{
+            account:'',
+            password:'',
+            confirmPassword:'',
+            userType: '普通用户'
+          },
         }
       },
       watch:{
       },
       created() {
-      this.getCommentList(-1);
+        //判断登录状态
+        this.initUserLoginStatus();
+        //通知父组件（导航栏，更新视图）
+        this.$emit('initUserLoginStatus', null);
+
+        this.getCommentList(-1);
+
+        //查询top10的课程
+        this.listTop10Course();
       },
       methods: {
+        /**
+         * 判断是否是登录状态
+         */
+        initUserLoginStatus(){
+          this.$axios.get(this.$requestBaseUrl.authorize + '/user/isLogin')
+            .then(res=>{
+              if(res.data.success){
+                this.userIsLogin = res.data.data;
+                //获取用户基本信息
+                if(this.userIsLogin) {
+                  let userId = localStorage.getItem('user-id');
+                  this.findUserById(userId);
+                }
+              }else {
+                this.$message.warning('判断登录状态发生异常');
+              }
+            }).catch(err=>{
+            this.$message.error('判断登录状态发生异常');
+          });
+        },
+        /**
+         * 查找用户基本信息
+         * @param id
+         */
+        findUserById(id){
+          this.$axios.get(this.$requestBaseUrl.core + '/users/' + id)
+            .then(res=>{
+              if(res.data.success){
+                this.user = res.data.data;
+                this.user.imageUrl = this.$requestBaseUrl.core + this.user.userImage;
+              }else {
+                this.$message.warning('加载用户信息失败,请刷新看看');
+              }
+            }).catch(err=>this.$message.error('加载用户信息失败'));
+        },
+
+
         getCommentList(type){
           //type,-1表示查询全部、0表示课程评论，1表示课程提问
           this.queryParam.type = type == -1 ? '' : type;
@@ -1542,7 +1643,94 @@
         },
         toCommentDetail(commentId){
           this.$router.push('/question/' + commentId);
-        }
+        },
+
+        listTop10Course(){
+          this.$axios.get(this.$requestBaseUrl.statistics + '/courses/listTop10')
+            .then(resp=>{
+              if(resp.data.success){
+                this.top10CourseList = resp.data.data;
+                this.top10CourseList.forEach(course=>course.imageUrl = this.$requestBaseUrl.core + course.courseImage)
+              }else {
+                this.$message.warning('获取排名前10的课程失败');
+              }
+            }).catch(err=>{
+            this.$message.error('获取排名前10的课程失败');
+          });
+
+        },
+
+        /**
+         * 点击登录
+         */
+        submitLogin() {
+          let valid = true;
+          if (valid) {
+            let loginParam =JSON.parse(JSON.stringify(this.param));
+            //密码加密传输
+            loginParam.password = encrypt(this.param.password);
+            this.$axios.post(this.$requestBaseUrl.authorize+'/user/login',loginParam)
+              .then(resp => {
+                let respResult = resp.data;
+                // 如果登录成功
+                if(respResult.success) {
+                  // let path = this.$route.query.redirect;
+                  // this.$router.replace((path == '/' || path == undefined) ? '/about' : path);
+                  console.log("登录成功...")
+                  localStorage.setItem('user-token', respResult.data.token);
+                  localStorage.setItem('user-id', respResult.data.userId);
+                  localStorage.setItem('user-account', this.param.username);
+                  location.reload();
+                }else {
+                  this.$message.warning(respResult.msg);
+                  this.updateVerificationCode();
+                }
+              });
+          } else {
+            this.$message.error('请输入账号和密码');
+            return false;
+          }
+        },
+        /**
+         * 刷新验证码
+         */
+        updateVerificationCode() {
+          this.vcUrl = this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime();
+        },
+
+        /**
+         * 注册方法
+         */
+        toRegister(){
+          console.log("register=" + this.register.userType);
+          console.log("account=" + this.register.account);
+          console.log("password=" + this.register.password);
+          console.log("confirmPassword=" + this.register.confirmPassword);
+
+          let registerParam =JSON.parse(JSON.stringify(this.register));
+          //密码加密传输rsa
+          registerParam.password = encrypt(registerParam.password);
+          registerParam.confirmPassword = encrypt(registerParam.confirmPassword);
+
+          this.$axios.post(this.$requestBaseUrl.authorize + '/user/register',registerParam)
+            .then(resp=>{
+              if(resp.data.success){
+
+                if(this.register.userType == '教师'){
+                  this.$message.success('提交申请成功，等待管理员审批');
+                }else {
+                  this.$message.success('注册成功');
+                }
+                location.reload();
+              }else {
+                this.$message.warning('注册失败');
+              }
+            }).catch(err=>{
+            this.$message.error('获取排名前10的课程失败');
+          });
+
+
+        },
 
       },
     }

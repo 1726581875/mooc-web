@@ -172,7 +172,6 @@ npm
                             </div>
                         </div>
                     </div>
-
                     <div class="sidebox mooc-teacher"  v-if="userIsLogin">
                         <div class="sidebox-header mooc-header">
                             <h4 class="sidebox-title">用户信息</h4>
@@ -197,18 +196,20 @@ npm
                         </div>
                     </div>
 
-                    <div class="sidebox">
-                        <div class="sidebox-header">
-                            <h4 class="sidebox-title">热门课程Top10</h4>
-                        </div>
-                        <div class="sidebox-body course-content side-list-body">
-                            <span  v-for="topCourse in top10CourseList">
-                             <a :href="'courses/' + topCourse.courseId"><img style="width:25px;height:25px" src="topCourse.imageUrl"> {{topCourse.courseName}}</a>
-                            </span>
 
-                        </div>
-
+                  <div class="sidebox">
+                    <div class="sidebox-header">
+                      <h4 class="sidebox-title">热门课程top10</h4>
                     </div>
+                    <div class="sidebox-body course-content side-list-body">
+                            <span  v-for="topCourse in top10CourseList">
+                             <a :href="'courses/' + topCourse.courseId">
+                               <img style="width:25px;height:25px" :src="topCourse.imageUrl">
+                               {{topCourse.courseName}} <!--{{topCourse.count}}-->
+                             </a>
+                            </span>
+                    </div>
+                  </div>
 
 <!--                    <div class="side-image side-qrcode">
                         <img src="../../../public/img/ShiyanlouQRCode.png">
@@ -432,18 +433,18 @@ npm
                     password: 'root',
                     code:''
                 },
+              //注册对象
+              register:{
+                account:'',
+                password:'',
+                confirmPassword:'',
+                userType: '普通用户'
+              },
                 vcUrl: this.$requestBaseUrl.authorize+'/mooc/admin/code/image?time='+new Date().getTime(),
                 //排名前10的课程
                 top10CourseList:[
                     {courseName:"SpringCloud入门实践",imageUrl:'../../../public/img/1471513769430.png'}
                     ],
-                //注册对象
-                register:{
-                  account:'',
-                  password:'',
-                  confirmPassword:'',
-                    userType: '普通用户'
-                }
             };
         },
         created() {
@@ -496,7 +497,7 @@ npm
                     .then(resp=>{
                         if(resp.data.success){
                          this.top10CourseList = resp.data.data;
-                         this.top10CourseList.forEach(course=>course.imageUrl = this.$requestBaseUrl.core + course.image)
+                         this.top10CourseList.forEach(course=>course.imageUrl = this.$requestBaseUrl.core + course.courseImage)
                         }else {
                             this.$message.warning('获取排名前10的课程失败');
                         }
