@@ -25,7 +25,7 @@
                   <a class="username" href="#" target="_blank">
                       {{user.name}}
                   </a>
-                  <span class="user-level">L195</span>
+                 <!-- <span class="user-level">L195</span>-->
                 </div>
 
 
@@ -35,7 +35,7 @@
 
                 <span>{{user.userType}}</span>
 
-                <a href="/edu/1" target="_blank">北京大学</a>
+                <a target="_blank">{{user.motto == null ? '该用户什么也没写' : user.motto}}</a>
 
 
               </div>
@@ -44,12 +44,12 @@
           <div class="col-md-3 userinfo-banner-labinfo">
             <div class="userinfo-banner-level">
               <!--<img src="../../../public/imglou-level.png">-->
-              <div class="userinfo-current-level"><span>195</span> 楼</div>
+<!--              <div class="userinfo-current-level"><span>195</span> 楼</div>
               <div class="userinfo-level-more" data-toggle="tooltip" data-placement="bottom"
                    title="在实验环境中动手输入代码或命令时才计入有效学习时间">
 
                 距 196 楼还需 16 分钟有效学习时间
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
@@ -75,10 +75,11 @@
 
             </ul>
 
-            <div class="tab-content">
+           <div class="tab-content">
+
               <div role="tabpanel" class="tab-pane active">
                 <div class="row">
-                  <div class="col-md-12">
+ <!--                 <div class="col-md-12">
                     <a>
                       <span class="label label-success">学过的</span>
                     </a>
@@ -90,7 +91,7 @@
                       <span class="label label-default">发布的</span>
                     </a>
 
-                  </div>
+                  </div>-->
 
 
                   <div class="col-md-4 col-sm-6  course" v-for="course in courseList" :key="course.id">
@@ -121,7 +122,6 @@
                 </div>
 
 
-                   <!-- 分页 -->
                     <nav class="pagination-container">
                         <ul class="pagination">
 
@@ -154,8 +154,8 @@
         <div class="col-md-3 layout-side">
 
 
-          <a class="side-sda apply-git" href="http://git.shiyanlou.com/shilei" target="_blank">
-            <!--<img src="../../../public/imgmy-git.png">-->
+<!--          <a class="side-sda apply-git" href="http://git.shiyanlou.com/shilei" target="_blank">
+            &lt;!&ndash;<img src="../../../public/imgmy-git.png">&ndash;&gt;
             <span>代码库</span>
           </a>
 
@@ -240,7 +240,7 @@
               </div>
 
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>

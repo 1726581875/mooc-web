@@ -42,10 +42,10 @@
               </div>
 
               <!-- 学习进度条 -->
-              <div class="course-infobox-progress">
+<!--              <div class="course-infobox-progress">
                 <div class="course-progress-new" v-for="index in chapterList.length" :key="index"></div>
                 <span>（0/17）</span>
-              </div>
+              </div>-->
 
               <div class="pull-right course-infobox-price">
 
@@ -171,14 +171,14 @@
             <span>
               <a href="#" @click.prevent="show(index)">查看回复( {{item.replyList.length}})</a>
               <a href="#" @click.prevent="replyed(item.commentId, '', item.userId, item.userName)">回复</a>
-              <a
+<!--              <a
                 href="#"
                 :class="{'active': item.star}"
                 @click.prevent="bigParise(item.commentId,index)"
               >
                 <i class="glyphicon glyphicon-thumbs-up"></i>
                 &nbsp; {{item.commentStar}}
-              </a>
+              </a>-->
             </span>
                             </div>
                             <div class="content">
@@ -343,22 +343,19 @@
                       </a>
                     </div>-->
 
-
-          <div class="sidebox adv-course">
+          <div class="sidebox">
             <div class="sidebox-header">
-              <h4 class="sidebox-title">推荐课程</h4>
+              <h4 class="sidebox-title">该老师的其他课程推荐</h4>
             </div>
-            <div class="sideobx-body course-content">
-
-              <a href="/courses/204">实用Linux Shell编程</a>
-
-              <a href="/courses/2">Vim编辑器</a>
-
-              <a href="/courses/68">Linux命令实例练习</a>
-
+            <div class="sidebox-body course-content side-list-body">
+                            <span  v-for="topCourse in top10CourseList">
+                             <a :href="'courses/' + topCourse.courseId">
+                               <img style="width:25px;height:25px" :src="topCourse.imageUrl">
+                               {{topCourse.courseName}} <!--{{topCourse.count}}-->
+                             </a>
+                            </span>
             </div>
           </div>
-
 
         </div>
       </div>
@@ -752,6 +749,10 @@
         //评论数，提问数
         commentNumber: 0,
         questionNumber: 0,
+        //排名前10的课程
+        top10CourseList:[
+          {courseName:"SpringCloud入门实践",imageUrl:'../../../public/img/1471513769430.png'}
+        ],
       };
     },
     created() {
@@ -767,7 +768,21 @@
       this.reply.userId = localStorage.getItem('user-id');
     },
     methods: {
+      listTop10Course(){
 
+        this.$axios.get(this.$requestBaseUrl.statistics + '/courses/listTop10?teacherId=' + this.course.teacherId)
+          .then(resp=>{
+            if(resp.data.success){
+              this.top10CourseList = resp.data.data;
+              this.top10CourseList.forEach(course=>course.imageUrl = this.$requestBaseUrl.core + course.courseImage)
+            }else {
+              this.$message.warning('获取排名前10的课程失败');
+            }
+          }).catch(err=>{
+          this.$message.error('获取排名前10的课程失败');
+        });
+
+      },
       /**
        * 点击收藏课程
        */
@@ -813,6 +828,9 @@
               //课程评论数、提问数
               this.commentNumber = this.course.commentNum;
               this.questionNumber = this.course.questionNum;
+
+              //该教师的其他top10的课程
+              this.listTop10Course();
 
               //2、若localStorage有记录，则播放之前视频
               let sectionId = localStorage.getItem('course-' + courseId);
@@ -978,7 +996,7 @@
                   this.questionNumber = res.data.data.pageTotal;
                 }
               } else {
-                this.$message.error('已经加载到尽头了！')
+               // this.$message.warning('已经加载到尽头了！')
               }
             } else {
               this.$message.error('获取失败！！')
