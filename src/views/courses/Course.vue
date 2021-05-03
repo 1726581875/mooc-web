@@ -29,15 +29,17 @@
                     </div>
                     <div class="content position-relative">
                         <ul class="nav nav-tabs" role="tablist">
-                            <li class="active"><a href="/courses/?course_type=all&amp;tag=all&amp;fee=all">已上线</a></li>
-                            <li class=""><a href="/courses/?status=preview" class="stat-event" data-stat="preview_course">即将上线</a></li>
+                            <li class="active"><a href="/courses">已上线</a></li>
+<!--                            <li class="">
+                              <a href="/courses/?status=preview" class="stat-event" data-stat="preview_course">即将上线</a>
+                            </li>-->
                         </ul>
                         <div class="clearfix"></div>
-                        <div class="courses-sort">
+<!--                        <div class="courses-sort">
                             <a  href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;order=latest">最新</a>
                             /
                             <a  href="/courses/?course_type=all&amp;tag=all&amp;fee=all&amp;order=hotest">最热</a>
-                        </div>
+                        </div>-->
                         <div class="search-result"></div>
 
                         <div class="row">
@@ -52,21 +54,19 @@
 
                                     </div>
                                     <div class="course-img">
-
                                         <img alt="新手指南之玩转慕课" :src="course.imageUrl">
-npm
                                     </div>
 
                                     <div class="course-body">
                                         <span class="course-title" data-toggle="tooltip" data-placement="bottom"
                                               title="新手指南之玩转慕课">{{course.name}}</span>
                                     </div>
-                                    <div class="course-footer">
+                                   <!-- <div class="course-footer">
                                         <span class="course-per-num pull-left">
                                             <i class="fa fa-users"></i>
                                             {{course.learningNum}}
                                         </span>
-                                    </div>
+                                    </div>-->
                                 </a>
                             </div>
 
